@@ -1,5 +1,4 @@
-﻿using BisleriumCafé.Data;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace BisleriumCafé
 {
@@ -21,9 +20,6 @@ namespace BisleriumCafé
 		builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();
 #endif
-
-            builder.Services.AddSingleton<WeatherForecastService>();
-
             return builder.Build();
         }
     }
