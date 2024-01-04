@@ -50,12 +50,22 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+      <None Remove="Pages\Login.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Utils\" />
+      <Content Include="Pages\Login.razor.css" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IronPdf" Version="2023.12.6" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Data\Services\" />
+      <Folder Include="Data\Utils\" />
     </ItemGroup>
 
 </Project>

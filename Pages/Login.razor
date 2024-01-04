@@ -1,0 +1,56 @@
+﻿@page "/login"
+@using BisleriumCafé.Data.Models
+@using System.Collections.Generic
+@inject IJSRuntime JSRuntime
+
+<h3>Login</h3>
+
+<EditForm model="staffModel" OnValidSubmit="SetLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <InputText id="Name" @bind-Value="staffModel.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password:</label>
+        <InputText id="Password" @bind-Value="password" class="form-control" type="password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private Staff.StaffModel staffModel = new Staff.StaffModel("", "", "");
+    private string password;
+
+    private async void SetLogin()
+    {
+        // Validate login logic here
+        if (ValidatePassword(password, StaffPassword.StaffPass123))
+        {
+            staffModel.Role = StaffRole.Staff.ToString();
+            await JSRuntime.InvokeAsync<object>("alert", "Staff.");
+        }
+        else if (ValidatePassword(password, StaffPassword.AdminPass456))
+        {
+            staffModel.Role = StaffRole.Admin.ToString();
+            await JSRuntime.InvokeAsync<object>("alert", "Admin.");
+        }
+        else
+        {
+            // Handle invalid login attempt
+            // You may display an error message or perform other actions
+            await JSRuntime.InvokeAsync<object>("alert", "Invalid credentials. Please try again.");
+        }
+    }
+
+    private bool ValidatePassword(string enteredPassword, StaffPassword expectedPassword)
+    {
+        // Implement your password validation logic here
+        // For simplicity, this example checks equality, but you should use a secure validation method
+        return enteredPassword == expectedPassword.ToString();
+    }
+}
