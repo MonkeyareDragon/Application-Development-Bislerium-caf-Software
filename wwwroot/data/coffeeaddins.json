@@ -1,0 +1,18 @@
+[
+    {
+        "Name": "Espresso",
+        "Price": 2.5
+    },
+    {
+        "Name": "Latte",
+        "Price": 3.0
+    },
+    {
+        "Name": "Cappuccino",
+        "Price": 3.5
+    },
+    {
+        "Name": "Wheap Cream",
+        "Price": 2.5
+    }
+]

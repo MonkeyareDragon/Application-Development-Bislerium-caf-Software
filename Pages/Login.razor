@@ -2,6 +2,7 @@
 @using BisleriumCafé.Data.Models
 @using System.Collections.Generic
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h3>Login</h3>
 
@@ -25,7 +26,7 @@
 @code {
     StaffModel staffModel = new StaffModel();
     private string password;
-    
+
     private async void SetLogin()
     {
         // Validate login logic here
@@ -33,11 +34,13 @@
         {
             staffModel.Role = StaffRole.Staff;
             await JSRuntime.InvokeAsync<object>("alert", "Staff.");
+            NavigateToIndex();
         }
         else if (ValidatePassword(password, StaffPassword.AdminPass456))
         {
             staffModel.Role = StaffRole.Admin;
             await JSRuntime.InvokeAsync<object>("alert", "Admin.");
+            NavigateToIndex();
         }
         else
         {
@@ -52,5 +55,12 @@
         // Implement your password validation logic here
         // For simplicity, this example checks equality, but you should use a secure validation method
         return enteredPassword == expectedPassword.ToString();
+    }
+
+    private void NavigateToIndex()
+    {
+        // Redirect to the dashboard page for staff
+        NavigationManager.NavigateTo("/index");
+        StateHasChanged();
     }
 }

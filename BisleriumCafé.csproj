@@ -68,11 +68,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Services\" />
-      <Folder Include="Data\Utils\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <UpToDateCheckInput Remove="Pages\Order.razor" />
     </ItemGroup>
 

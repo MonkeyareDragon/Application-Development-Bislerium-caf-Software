@@ -1,0 +1,47 @@
+﻿@page "/addins"
+@inherits LayoutComponentBase
+@using BisleriumCafé.Data.Models;
+@using BisleriumCafé.Data.Services;
+
+<h3>Coffee Admins</h3>
+
+@if (CoffeeAdmins != null && CoffeeAdmins.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var admin in CoffeeAdmins)
+            {
+                <tr>
+                    <td>@admin.Name</td>
+                    <td>@admin.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No coffee admins available.</p>
+}
+
+@code {
+    private List<CoffeeAdmin> CoffeeAdmins;
+
+    protected override void OnInitialized()
+    {
+        // For simplicity, assume you have the JSON file in wwwroot/data/coffeeadmins.json
+        string filePath = @"C:\Users\18lim\OneDrive\Desktop\Application Development\Window Application\BisleriumCafé\wwwroot\data\coffeeaddins.json";
+
+        // Use dependency injection to get an instance of CoffeeService
+        var coffeeService = new CoffeeService();
+
+        // Retrieve coffee admins from the JSON file
+        CoffeeAdmins = coffeeService.GetCoffeeAdmins(filePath);
+    }
+}
