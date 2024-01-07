@@ -23,20 +23,20 @@
 </EditForm>
 
 @code {
-    private Staff.StaffModel staffModel = new Staff.StaffModel("", "", "");
+    StaffModel staffModel = new StaffModel();
     private string password;
-
+    
     private async void SetLogin()
     {
         // Validate login logic here
         if (ValidatePassword(password, StaffPassword.StaffPass123))
         {
-            staffModel.Role = StaffRole.Staff.ToString();
+            staffModel.Role = StaffRole.Staff;
             await JSRuntime.InvokeAsync<object>("alert", "Staff.");
         }
         else if (ValidatePassword(password, StaffPassword.AdminPass456))
         {
-            staffModel.Role = StaffRole.Admin.ToString();
+            staffModel.Role = StaffRole.Admin;
             await JSRuntime.InvokeAsync<object>("alert", "Admin.");
         }
         else

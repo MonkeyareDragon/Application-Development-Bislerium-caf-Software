@@ -50,6 +50,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Content Remove="Pages\Order.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Remove="Pages\Login.razor.css" />
     </ItemGroup>
 
@@ -66,6 +70,18 @@
     <ItemGroup>
       <Folder Include="Data\Services\" />
       <Folder Include="Data\Utils\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Pages\Order.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Order.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="Pages\Order.razor" />
     </ItemGroup>
 
 </Project>
