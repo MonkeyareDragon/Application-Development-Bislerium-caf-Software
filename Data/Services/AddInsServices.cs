@@ -35,7 +35,7 @@ public class AddInsServices
         // If the file is empty, injects a list of sample hobby data in a object of List<Hobby> called sampleHobbies first and saves it in a Json File by calling method SaveHobbiesToJson.
         if (string.IsNullOrEmpty(existingData))
         {
-            List<AddIns> sampleAddIns = new List<AddIns>
+            List<AddIns> sampleAddIns = new()
             {
                 new AddIns { Name = "Cayenne pepper", Price = 25 },
                 new AddIns { Name = "Cardamom", Price = 15 },

@@ -22,7 +22,7 @@ namespace BisleriumCafé.Data.Utils
         public static string ApplicationFilePath()
         {
             string directoryPathCreated = ApplicationDirectoryPath();   // Calling the method ApplicationDirectoryPath That returns the folder created, and storing it in directoryPathCreated variable
-            string filePath = Path.Combine(directoryPathCreated, "FormData.json");  // Combine the directory path with the file name to get the complete file path.
+            string filePath = Path.Combine(directoryPathCreated, "OrderData.json");  // Combine the directory path with the file name to get the complete file path.
             try
             {
                 if (!File.Exists(filePath))
@@ -43,12 +43,38 @@ namespace BisleriumCafé.Data.Utils
         }
 
 
-        // Returns the path of the file where hobby data will be stored.
-        public static string AddInsFilePath()   // This method is used for hobbies data.
+        // Returns the path of the file where addins data will be stored.
+        public static string AddInsFilePath()   // This method is used for addins data.
         {
             // Similar implementation as ApplicationFilePath.
             string directoryPathCreated = ApplicationDirectoryPath();
-            string filePath = Path.Combine(directoryPathCreated, "Hobbies.json");
+            string filePath = Path.Combine(directoryPathCreated, "AddIns.json");
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Close();
+                    return filePath;
+                }
+                else
+                {
+                    return filePath;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                return message;
+            }
+        }
+
+
+        // Returns the path of the file where coffee data will be stored.
+        public static string CoffeeFilePath()   // This method is used for addins data.
+        {
+            // Similar implementation as ApplicationFilePath.
+            string directoryPathCreated = ApplicationDirectoryPath();
+            string filePath = Path.Combine(directoryPathCreated, "Coffees.json");
             try
             {
                 if (!File.Exists(filePath))
