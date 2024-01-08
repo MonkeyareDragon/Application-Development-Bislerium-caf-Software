@@ -70,4 +70,18 @@ public class PaymentServices
             return new List<MakePayment>();
         }
     }
+
+    public static int GetTotalPaymentsCount()
+    {
+        // Load payment data from the JSON file
+        var payments = RetrieveFormData();
+
+        var uniquePurchaseIds = new HashSet<Guid>(payments.Select(purchase => purchase.PaymentId));
+
+        // Calculate the count of unique PurchaseId values
+        int uniquePurchaseIdCount = uniquePurchaseIds.Count;
+
+        // Return the total payments count
+        return uniquePurchaseIdCount;
+    }
 }

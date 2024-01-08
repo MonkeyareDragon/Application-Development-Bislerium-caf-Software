@@ -22,5 +22,8 @@ namespace BisleriumCafé.Data.Models
         [Required(ErrorMessage = "Payment Datetime is required")]
         [Display(Name = "Payment Datetime")]
         public DateTime PaymentDatetime { get; set; }
+
+        public int PurchasesCount { get; set; }
+        public double PaidPrice { get; set; }
     }
 }
