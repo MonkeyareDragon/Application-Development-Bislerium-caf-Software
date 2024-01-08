@@ -1,0 +1,52 @@
+[
+  {
+    "Id": "5d21844e-c6fb-4536-af84-56126c9b2575",
+    "Name": "Cum pepper",
+    "Price": 0.5
+  },
+  {
+    "Id": "c441be83-a455-4eca-8c8d-657c42f62290",
+    "Name": "Cardamom",
+    "Price": 15.0
+  },
+  {
+    "Id": "3490959d-5280-4df4-9fc7-05c0540c35a6",
+    "Name": "Cinnamon",
+    "Price": 12.5
+  },
+  {
+    "Id": "8b5a202e-b78c-49fe-962a-f8a26654d2bb",
+    "Name": "Coconut oil",
+    "Price": 10.0
+  },
+  {
+    "Id": "25792b6e-c65d-4d30-9122-0f29fac6e039",
+    "Name": "Nutmeg",
+    "Price": 100.0
+  },
+  {
+    "Id": "23a62136-2914-43e9-a735-3b4f1c63534c",
+    "Name": "Maple syrup",
+    "Price": 150.0
+  },
+  {
+    "Id": "8dd8de99-742c-486b-a153-2491636618d3",
+    "Name": "Honey",
+    "Price": 25.0
+  },
+  {
+    "Id": "c3bf621f-732e-4fdb-ac1a-41fea50f15c1",
+    "Name": "Cream",
+    "Price": 45.0
+  },
+  {
+    "Id": "2bb0effc-cf33-4550-885d-9e1e2380502e",
+    "Name": "Vanilla extract",
+    "Price": 150.0
+  },
+  {
+    "Id": "f4466772-ca47-4104-9cf7-80ae1caa5861",
+    "Name": "Marshmallows",
+    "Price": 30.0
+  }
+]

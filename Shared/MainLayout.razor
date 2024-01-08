@@ -7,8 +7,8 @@
     StaffModel staffModel = new StaffModel();
 }
 
-@* @if (staffModel.Role == StaffRole.Admin || staffModel.Role == StaffRole.Staff) *@
-@if (staffModel.Role != StaffRole.Admin || staffModel.Role != StaffRole.Staff)
+@if (staffModel.Role == StaffRole.Admin || staffModel.Role == StaffRole.Staff)
+@* @if (staffModel.Role != StaffRole.Admin || staffModel.Role != StaffRole.Staff) *@
 {
     <div class="page">
         <div class="sidebar">
