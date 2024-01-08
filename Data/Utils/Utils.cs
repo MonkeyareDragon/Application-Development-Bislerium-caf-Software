@@ -19,10 +19,34 @@ namespace BisleriumCafé.Data.Utils
         }
 
         // Returns the path of the file where form data will be stored.
-        public static string ApplicationFilePath()
+        public static string OrderDataFilePath()
         {
             string directoryPathCreated = ApplicationDirectoryPath();   // Calling the method ApplicationDirectoryPath That returns the folder created, and storing it in directoryPathCreated variable
             string filePath = Path.Combine(directoryPathCreated, "OrderData.json");  // Combine the directory path with the file name to get the complete file path.
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Close();  // If the file doesn't exist, create it.
+                    return filePath;    // Return the path of the file.
+                }
+                else
+                {
+                    return filePath;  // Return the path of the file.
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                return message;
+            }
+        }
+
+        // Returns the path of the file where form data will be stored.
+        public static string PaymentDataFilePath()
+        {
+            string directoryPathCreated = ApplicationDirectoryPath();   // Calling the method ApplicationDirectoryPath That returns the folder created, and storing it in directoryPathCreated variable
+            string filePath = Path.Combine(directoryPathCreated, "PaymentData.json");  // Combine the directory path with the file name to get the complete file path.
             try
             {
                 if (!File.Exists(filePath))

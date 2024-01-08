@@ -6,6 +6,8 @@ namespace BisleriumCafé.Data.Models
 {
     public class AddOrder
     {
+        // Unique identifier for each coffee, automatically generated.
+        public Guid OrderId { get; set; } = Guid.NewGuid();
         public List<Coffee> Coffee { get; set; }
 
         public List<AddIns> AddIns { get; set; }

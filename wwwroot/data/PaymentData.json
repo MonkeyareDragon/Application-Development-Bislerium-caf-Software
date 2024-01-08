@@ -1,0 +1,35 @@
+[
+  {
+    "PaymentId": "a55f47e6-6742-4157-84da-2ae278f39206",
+    "Order": [
+      {
+        "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
+        "Coffee": [
+          {
+            "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
+            "CoffeeName": "Cappuccino",
+            "CoffeePrice": 350.0
+          }
+        ],
+        "AddIns": [
+          {
+            "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
+            "Name": "Nutmeg",
+            "Price": 100.0
+          },
+          {
+            "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
+            "Name": "Maple syrup",
+            "Price": 150.0
+          }
+        ],
+        "TotalPrice": 600.0,
+        "PaymentStatus": "Pending",
+        "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
+      }
+    ],
+    "CustomerName": "Kabin",
+    "Email": "18limboo@gmail.com",
+    "PaymentDatetime": "2024-01-08T23:43:33.5522214+05:45"
+  }
+]

@@ -1,0 +1,64 @@
+﻿<!-- Razor page for editing a hobby with a specified Id -->
+@page "/Payment/{Id:guid}"
+<!-- Inject the NavigationManager Service for page navigation -->
+@inject NavigationManager NavManager
+@using BisleriumCafé.Data.Models;
+@using BisleriumCafé.Data.Services;
+@using BisleriumCafé.Data.Utils;
+
+<h3>Make Payment</h3>
+
+<!-- EditForm component of blazor for handling form submission and validation -->
+<EditForm Model="@payment" OnValidSubmit="@HandlePayment">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <!-- InputText component with two-way data binding to the AddIn's Name property -->
+        <InputText id="Name" class="form-control" @bind-Value="payment.CustomerName" />
+        <label for="Price">Email:</label>
+        <!-- InputNumber component with two-way data binding to the AddIn's Price property -->
+        <InputText id="Email" class="form-control" @bind-Value="payment.Email" />
+    </div>
+    <!-- Submit button for saving changes -->
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    [Parameter] // Parameter to capture the AddIns Id from the route above /EditAddIns/{Id:guid}
+    public Guid id { get; set; }
+
+    // AddIns object to store and edit addins information
+    public MakePayment payment = new MakePayment();
+
+    // HandleSubmit method is called on form submission
+    public void HandlePayment()
+    {
+        // Set default values for PaymentId, OrderId, and PaymentDatetime
+        payment.PaymentId = Guid.NewGuid();
+
+        // Retrieve order details based on OrderId
+        var orderDetails = OrderServices.RetrieveOrderData().FirstOrDefault(order => order.OrderId == id);
+
+        // Check if orderDetails is not null
+        if (orderDetails != null)
+        {
+            // Update PaymentStatus of the corresponding order
+            orderDetails.PaymentStatus = "Paid";
+            //OrderServices.SaveOrderDataInJson(orderDetails);
+
+            payment.Order = new List<AddOrder> { orderDetails };
+        }
+        payment.PaymentDatetime = DateTime.Now;
+
+        // Save payment data to JSON file
+        PaymentServices.SavePaymentDataInJson(payment);
+
+        // Reset the form object
+        payment = new MakePayment();
+
+        // Optionally navigate to a different page after saving
+        // NavManager.NavigateTo("/paymentConfirmation");
+    }
+
+}

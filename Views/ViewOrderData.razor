@@ -12,6 +12,7 @@
             <th>Payment Status</th>
             <th>Order: Date and Time</th>
             <th>Total Price</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -59,9 +60,32 @@
                 <td>@orderData.PaymentStatus</td>
                 <td>@orderData.OrderDatetime</td>
                 <td>@orderData.TotalPrice</td>
+                <td>
+                    <!-- Button to navigate to the EditHobby page with the specific hobby ID -->
+                    <button type="submit" @onclick="@(()=>Payment(orderData.OrderId))" class="btn btn-primary">Pay</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 @code {
+    // Inject NavigationManager for navigation purposes
+    [Inject]
+    private NavigationManager Nav { get; set; }
+
+    // Method to navigate to the EditHobby page with a specific hobby Id
+    public void Payment(Guid id)
+    {
+        // try
+        // {
+        //     // Navigate to the EditHobby page with the specific hobby ID
+        //     Nav.NavigateTo($"/Payment/{id}");
+        // }
+        // catch (Exception ex)
+        // {
+        //     // Handle any navigation errors
+        //     Console.WriteLine($"Error Navigating:{ex.Message}");
+        // }
+        Nav.NavigateTo($"/Payment/{id}");
+    }
 }
