@@ -50,10 +50,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="Pages\Order.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Remove="Pages\Login.razor.css" />
     </ItemGroup>
 
@@ -65,18 +61,6 @@
         <PackageReference Include="IronPdf" Version="2023.12.6" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <UpToDateCheckInput Remove="Pages\Order.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\Order.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="Pages\Order.razor" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,101 @@
+﻿@page "/orders"
+@using BisleriumCafé.Data.Models
+@using BisleriumCafé.Data.Services
+@using BisleriumCafé.Data.Utils
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<h3>OrderCoffee</h3>
+
+<!-- EditForm component of blazor for handling form submission and validation -->
+<EditForm Model="@order" OnValidSubmit="@SaveOrder">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    
+    <div>
+        <label for="coffeeName">Coffee Name:</label>
+        <select id="coffeeName" @bind="selectedCoffeeId">
+            @foreach (var coffeeData in CoffeeServices.RetrieveCoffeeData())
+            {
+                <option value="@coffeeData.Id">@coffeeData.CoffeeName - @coffeeData.CoffeePrice</option>
+            }
+        </select>
+    </div>
+    <br />
+    <div>
+        <label>Add-ins:</label>
+        @foreach (var addinsData in AddInsServices.RetrieveAddInsData())
+        {
+            <div>
+                <input type="checkbox" @onchange="(e) => AddInsCheckboxChanged(e, addinsData)" />
+                <label for="@addinsData.Id">@addinsData.Name - @addinsData.Price</label>
+            </div>
+        }
+    </div>
+    <br />
+    <div>
+        <label>Total Price:</label>
+        <span>@CalculateTotalPrice().ToString("C")</span>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Save Order</button>
+</EditForm>
+
+@code {
+    private Guid selectedCoffeeId;
+    private List<AddIns> selectedAddIns = new List<AddIns>();
+    // Form object to store form data
+    AddOrder order = new AddOrder();
+
+    private double CalculateTotalPrice()
+    {
+        double coffeePrice = CoffeeServices.RetrieveCoffeeData().FirstOrDefault(c => c.Id == selectedCoffeeId)?.CoffeePrice ?? 0;
+        double addInsPrice = selectedAddIns.Sum(a => a.Price);
+
+        return coffeePrice + addInsPrice;
+    }
+
+    private void AddInsCheckboxChanged(ChangeEventArgs e, AddIns addIns)
+    {
+        bool isChecked = (bool)e.Value;
+
+        if (isChecked)
+        {
+            selectedAddIns.Add(addIns);
+        }
+        else
+        {
+            // Check if the addIns is already in the list before removing it
+            var existingAddIns = selectedAddIns.FirstOrDefault(a => a.Id == addIns.Id);
+            if (existingAddIns != null)
+            {
+                selectedAddIns.Remove(existingAddIns);
+            }
+        }
+
+        StateHasChanged();
+    }
+
+    // HandleSubmit method is called on form submission
+    private void SaveOrder()
+    {
+        // Get the selected coffee
+        var selectedCoffee = CoffeeServices.RetrieveCoffeeData().FirstOrDefault(c => c.Id == selectedCoffeeId);
+
+        // Set default values for Coffee Name, TotalPrice, PaymentStatus, and OrderDatetime
+        order.Coffee = new List<Coffee> { selectedCoffee };
+        order.AddIns = selectedAddIns;
+        order.TotalPrice = CalculateTotalPrice();
+        order.PaymentStatus = "Pending";
+        order.OrderDatetime = DateTime.Now;
+
+        // Save form data to JSON file
+        OrderServices.SaveOrderDataInJson(order);
+
+        // Reset the form object
+        order = new AddOrder();
+
+        // Navigate to the FormData page if needed
+        // NavigationManager.NavigateTo("/formData");
+    }
+}

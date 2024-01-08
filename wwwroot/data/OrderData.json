@@ -1,0 +1,79 @@
+[
+  {
+    "Coffee": [
+      {
+        "Id": "cf3ad079-d268-4883-ae89-e9967e1039d3",
+        "CoffeeName": "Black Coffee",
+        "CoffeePrice": 250.0
+      }
+    ],
+    "AddIns": [
+      {
+        "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
+        "Name": "Cayenne pepper",
+        "Price": 25.0
+      }
+    ],
+    "TotalPrice": 275.0,
+    "PaymentStatus": "Pending",
+    "OrderDatetime": "2024-01-08T20:20:39.4836446+05:45"
+  },
+  {
+    "Coffee": [
+      {
+        "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
+        "CoffeeName": "Cappuccino",
+        "CoffeePrice": 350.0
+      }
+    ],
+    "AddIns": [
+      {
+        "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
+        "Name": "Cayenne pepper",
+        "Price": 25.0
+      },
+      {
+        "Id": "6a693bad-e279-47cd-b743-e5e476599448",
+        "Name": "Vanilla extract",
+        "Price": 150.0
+      }
+    ],
+    "TotalPrice": 525.0,
+    "PaymentStatus": "Pending",
+    "OrderDatetime": "2024-01-08T20:21:04.8642642+05:45"
+  },
+  {
+    "Coffee": [
+      {
+        "Id": "5b5955b8-7c20-401d-a704-642f463eacfc",
+        "CoffeeName": "Americano",
+        "CoffeePrice": 200.0
+      }
+    ],
+    "AddIns": [
+      {
+        "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
+        "Name": "Cayenne pepper",
+        "Price": 25.0
+      },
+      {
+        "Id": "6a693bad-e279-47cd-b743-e5e476599448",
+        "Name": "Vanilla extract",
+        "Price": 150.0
+      },
+      {
+        "Id": "e0c5683b-0917-4537-8a49-1f06297afbbf",
+        "Name": "Honey",
+        "Price": 25.0
+      },
+      {
+        "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
+        "Name": "Maple syrup",
+        "Price": 150.0
+      }
+    ],
+    "TotalPrice": 550.0,
+    "PaymentStatus": "Pending",
+    "OrderDatetime": "2024-01-08T20:21:22.6873612+05:45"
+  }
+]
