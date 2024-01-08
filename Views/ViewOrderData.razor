@@ -1,0 +1,67 @@
+﻿<!-- Razor page for viewing form data saved in Json file-->
+@page "/formData"
+@using BisleriumCafé.Data.Services
+
+<h3>ViewFormData</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Coffee Name</th>
+            <th>AddIns Name</th>
+            <th>Payment Status</th>
+            <th>Order: Date and Time</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Loop through each form data -->
+        @foreach (var orderData in OrderServices.RetrieveOrderData())
+        {
+            <tr>
+                <!-- Display basic form data -->
+                <td>
+                    <!-- Check if hobbies exist -->
+                    @if (orderData.Coffee != null && orderData.Coffee.Any())
+                    {
+                        <!-- Display hobbies in a list -->
+                        <ul>
+                            @foreach (var coffee in orderData.Coffee)
+                            {
+                                <li>@coffee.CoffeeName - Rs.@coffee.CoffeePrice</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- Display a message if no hobbies -->
+                        <span>No hobbies</span>
+                    }
+                </td>
+                <td>
+                    <!-- Check if hobbies exist -->
+                    @if (orderData.AddIns != null && orderData.AddIns.Any())
+                    {
+                        <!-- Display hobbies in a list -->
+                        <ul>
+                            @foreach (var addins in orderData.AddIns)
+                            {
+                                <li>@addins.Name</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- Display a message if no hobbies -->
+                        <span>No hobbies</span>
+                    }
+                </td>
+                <td>@orderData.PaymentStatus</td>
+                <td>@orderData.OrderDatetime</td>
+                <td>@orderData.TotalPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+}

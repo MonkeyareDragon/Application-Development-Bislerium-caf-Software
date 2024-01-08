@@ -45,7 +45,7 @@ public class OrderServices
     }
 
     // Retrieves form data from the JSON file.
-    public static List<AddOrder> RetrieveFormData()
+    public static List<AddOrder> RetrieveOrderData()
     {
         // Gets the file path where form data is stored from ApplicationFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.
