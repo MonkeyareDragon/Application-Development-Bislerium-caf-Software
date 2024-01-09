@@ -1,77 +1,22 @@
 [
   {
-    "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
+    "OrderId": "fe05afdb-d562-43a9-bb3e-3b7c9acbd238",
     "Coffee": [
       {
-        "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
+        "Id": "06f37380-40e5-4a66-8cde-851860dc0bc7",
         "CoffeeName": "Cappuccino",
         "CoffeePrice": 350.0
       }
     ],
     "AddIns": [
       {
-        "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-        "Name": "Nutmeg",
-        "Price": 100.0
-      },
-      {
-        "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
-        "Name": "Maple syrup",
-        "Price": 150.0
+        "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
+        "Name": "Cayenne pepper",
+        "Price": 25.0
       }
     ],
-    "TotalPrice": 600.0,
+    "TotalPrice": 375.0,
     "PaymentStatus": "Pending",
-    "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
-  },
-  {
-    "OrderId": "3ca8bfee-3dbf-4bc6-8a4d-944b9ad51b86",
-    "Coffee": [
-      {
-        "Id": "5b5955b8-7c20-401d-a704-642f463eacfc",
-        "CoffeeName": "Americano",
-        "CoffeePrice": 200.0
-      }
-    ],
-    "AddIns": [
-      {
-        "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-        "Name": "Nutmeg",
-        "Price": 100.0
-      },
-      {
-        "Id": "cb2bed3e-a8ff-48e6-9a6f-e8d6d6d292f3",
-        "Name": "Coconut oil",
-        "Price": 10.0
-      }
-    ],
-    "TotalPrice": 310.0,
-    "PaymentStatus": "Pending",
-    "OrderDatetime": "2024-01-08T23:43:08.1118322+05:45"
-  },
-  {
-    "OrderId": "7fea01b4-0418-4fc1-9d75-07774711131e",
-    "Coffee": [
-      {
-        "Id": "5b5955b8-7c20-401d-a704-642f463eacfc",
-        "CoffeeName": "Americano",
-        "CoffeePrice": 200.0
-      }
-    ],
-    "AddIns": [
-      {
-        "Id": "0e03d4cb-1b3b-4609-a8b5-5b5da06b159e",
-        "Name": "Cardamom",
-        "Price": 15.0
-      },
-      {
-        "Id": "757ebf75-ecc9-45f8-a3cc-7956d7e77b56",
-        "Name": "Marshmallows",
-        "Price": 30.0
-      }
-    ],
-    "TotalPrice": 245.0,
-    "PaymentStatus": "Pending",
-    "OrderDatetime": "2024-01-08T23:43:17.4790314+05:45"
+    "OrderDatetime": "2024-01-09T16:00:54.4560718+05:45"
   }
 ]

@@ -4,11 +4,10 @@
 @inject NavigationManager NavigationManager
 
 @code {
-    StaffModel staffModel = new StaffModel();
+    StaffModel staffModel;
 }
 
-@if (staffModel.Role == StaffRole.Admin || staffModel.Role == StaffRole.Staff)
-@* @if (staffModel.Role != StaffRole.Admin || staffModel.Role != StaffRole.Staff) *@
+@if ( true )
 {
     <div class="page">
         <div class="sidebar">

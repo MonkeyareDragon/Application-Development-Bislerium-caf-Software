@@ -11,5 +11,6 @@ namespace BisleriumCafé.Data.Models
     {
         Staff,
         Admin,
+        None,
     }
 }

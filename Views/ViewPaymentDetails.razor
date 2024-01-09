@@ -1,9 +1,11 @@
 ﻿<!-- Razor page for viewing form data saved in Json file-->
 @page "/paymentData"
 @using BisleriumCafé.Data.Services
+<!---- Giving reference to the Package IronPdf to use its method and download functionality-->
+@using IronPdf
 
 <h3>ViewFormData</h3>
-
+<button class="btn btn-primary" @onclick="DownloadPdf">Download</button>
 <table class="table">
     <thead>
         <tr>
@@ -94,4 +96,70 @@
     </tbody>
 </table>
 @code {
+    // Download PDF function
+    public void DownloadPdf()
+    {
+        try
+        {
+            var formDataList = PaymentServices.RetrievePaymentData();
+
+            if (formDataList != null && formDataList.Any())
+            {
+                // Create a PDF document
+                var pdf = new ChromePdfRenderer();
+
+                // HTML table for PDF
+                var tableHtml = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Hobbies</th></tr></thead><tbody>";
+
+                // Add data to the table
+                // Loop through form data to add to the PDF table
+                foreach (var formData in formDataList)
+                {
+                    tableHtml += "<tr>";
+                    tableHtml += $"<td>{formData.FirstName}</td><td>{formData.LastName}</td><td>{formData.Email}</td><td>{formData.PhoneNumber}</td><td>{formData.Address}</td>";
+                    tableHtml += "<td>";
+
+                    // Check if hobbies exist for the current form data
+                    if (formData.Hobbies != null && formData.Hobbies.Any())
+                    {
+                        tableHtml += "<ul>";
+                        // Loop through hobbies and add to the PDF table
+                        foreach (var hobby in formData.Hobbies)
+                        {
+                            tableHtml += $"<li>{hobby.Name}</li>";
+                        }
+                        tableHtml += "</ul>";
+                    }
+                    else
+                    {
+                        // Display a message if no hobbies
+                        tableHtml += "<span>No hobbies</span>";
+                    }
+
+                    tableHtml += "</td></tr>";
+                }
+
+                tableHtml += "</tbody></table>";
+
+                //Convert HTML to Pdf
+                var pdfStream = pdf.RenderHtmlAsPdf(tableHtml).Stream;
+
+                // Save the PDF Inside the folder
+                string pdfPath = @"Path to the folder from your drive";
+
+                //Combining file FormData.pdf with directory and also creating the pdf file at the same time using FileMode inbuilt class of .net and its method and finally storing it in variable fileStream
+                using (var fileStream = new System.IO.FileStream(Path.Combine(pdfPath, "FormData.pdf"), System.IO.FileMode.Create))
+                {
+                    pdfStream.CopyToAsync(fileStream); //copying the data of pdf inside application to the pdf created in you device
+                }
+
+                // Show notification
+                App.Current.MainPage.DisplayAlert("Success", "File Downloaded Successfully", "Ok");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
 }

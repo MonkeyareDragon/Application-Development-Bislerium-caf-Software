@@ -45,7 +45,7 @@ public class PaymentServices
     }
 
     // Retrieves form data from the JSON file.
-    public static List<MakePayment> RetrieveFormData()
+    public static List<MakePayment> RetrievePaymentData()
     {
         // Gets the file path where form data is stored from ApplicationFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.

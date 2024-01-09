@@ -31,7 +31,7 @@ label {
     margin-bottom: 0.5rem;
 }
 
-#Password {
+input {
     width: 100%;
     padding: 0.5rem;
     font-size: 14px;
@@ -51,6 +51,6 @@ label {
     transition: background-color 0.3s ease;
 }
 
-    .login-btn:hover {
-        background-color: #570987;
-    }
+.login-btn:hover {
+    background-color: #570987;
+}

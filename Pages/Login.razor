@@ -1,66 +1,78 @@
 ﻿@page "/login"
+@inherits LayoutComponentBase
 @using BisleriumCafé.Data.Models
 @using System.Collections.Generic
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
+@inject NavigationManager NavManager
 
-<h3>Login</h3>
+<div class="login-container">
+    <h1>Welcome to <span>Bislerium café</span></h1>
+    <p>Please sign in to continue.</p>
+    <EditForm model="staffModel" OnValidSubmit="SetLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<EditForm model="staffModel" OnValidSubmit="SetLogin">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="form-group">
-        <label for="Name">Name:</label>
-        <InputText id="Name" @bind-Value="staffModel.Name" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="Password">Password:</label>
-        <InputText id="Password" @bind-Value="password" class="form-control" type="password" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Login</button>
-</EditForm>
+        <div class="input-field">
+            <label for="username">Name</label>
+            <InputText id="Name" type="text" @bind-Value="staffModel.Name" class="form-control" />
+        </div>
+        <div class="input-field">
+            <label for="password">Password</label>
+            <InputText id="Password" @bind-Value="password" type="password" class="form-control" />
+        </div>
+        <button type="submit" class="login-btn">LOGIN</button>
+    </EditForm>
+</div>
 
 @code {
     StaffModel staffModel = new StaffModel();
     private string password;
 
-    private async void SetLogin()
+    private void SetLogin()
     {
         // Validate login logic here
         if (ValidatePassword(password, StaffPassword.StaffPass123))
         {
             staffModel.Role = StaffRole.Staff;
-            await JSRuntime.InvokeAsync<object>("alert", "Staff.");
+            ShowLoginSuccessMessage(StaffRole.Staff);
             NavigateToIndex();
         }
         else if (ValidatePassword(password, StaffPassword.AdminPass456))
         {
             staffModel.Role = StaffRole.Admin;
-            await JSRuntime.InvokeAsync<object>("alert", "Admin.");
+            ShowLoginSuccessMessage(StaffRole.Admin);
             NavigateToIndex();
         }
         else
         {
-            // Handle invalid login attempt
-            // You may display an error message or perform other actions
-            await JSRuntime.InvokeAsync<object>("alert", "Invalid credentials. Please try again.");
+            ShowLoginErrorMessage();
         }
     }
 
-    private bool ValidatePassword(string enteredPassword, StaffPassword expectedPassword)
+    private void ShowLoginSuccessMessage(StaffRole role)
     {
-        // Implement your password validation logic here
-        // For simplicity, this example checks equality, but you should use a secure validation method
-        return enteredPassword == expectedPassword.ToString();
+        App.Current.MainPage.DisplayAlert("Success", $"Hello {role}, You have successfully logged in!", "Ok");
+    }
+
+    private void ShowLoginErrorMessage()
+    {
+        App.Current.MainPage.DisplayAlert("Error!", "Invalid credentials. Please try again.", "Ok");
     }
 
     private void NavigateToIndex()
     {
-        // Redirect to the dashboard page for staff
-        NavigationManager.NavigateTo("/index");
-        StateHasChanged();
+        try
+        {
+            NavManager.NavigateTo("/index");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error navigating to index page: {ex.Message}");
+        }
+    }
+
+
+    private bool ValidatePassword(string enteredPassword, StaffPassword expectedPassword)
+    {
+        return enteredPassword == expectedPassword.ToString();
     }
 }
