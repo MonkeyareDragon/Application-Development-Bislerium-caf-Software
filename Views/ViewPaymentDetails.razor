@@ -1,8 +1,7 @@
-﻿<!-- Razor page for viewing form data saved in Json file-->
-@page "/paymentData"
+﻿@page "/paymentData"
+
 @using BisleriumCafé.Data.Services
 @using BisleriumCafé.Data.Models
-<!---- Giving reference to the Package IronPdf to use its method and download functionality-->
 @using IronPdf
 @using System.Text;
 @using System.Collections.Generic;
@@ -29,22 +28,22 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Loop through each form data -->
+        <!-- Loop through each payment data -->
         @foreach (var paymentData in filteredPaymentData)
         {
             <tr>
-                <!-- Display basic form data -->
+                <!-- Display basic payment data -->
                 <td>@paymentData.CustomerName</td>
                 <td>@paymentData.Email</td>
                 <td>
-                    <!-- Check if hobbies exist -->
+                    <!-- Check if order exist -->
                     @if (paymentData.Order != null && paymentData.Order.Any())
                     {
-                        <!-- Display hobbies in a list -->
+                        <!-- Display order in a list -->
                         @foreach (var order in paymentData.Order)
                         {
-                            <!-- Display hobbies in a list -->
                             <ul>
+                                <!-- Display coffee from order list -->
                                 @foreach (var coffee in order.Coffee)
                                 {
                                     <li>@coffee.CoffeeName</li>
@@ -54,19 +53,19 @@
                       }
                     else
                     {
-                        <!-- Display a message if no hobbies -->
+                        <!-- Display a message if no orders -->
                         <span>No Coffee</span>
                     }
                 </td>
                 <td>
-                    <!-- Check if hobbies exist -->
+                    <!-- Check if order exist -->
                     @if (paymentData.Order != null && paymentData.Order.Any())
                     {
-                        <!-- Display hobbies in a list -->
+                        <!-- Display order in a list -->
                         @foreach (var order in paymentData.Order)
                         {
-                            <!-- Display hobbies in a list -->
                             <ul>
+                                <!-- Display addins from order list -->
                                 @foreach (var addins in order.AddIns)
                                 {
                                     <li>@addins.Name</li>
@@ -76,16 +75,16 @@
                     }
                     else
                     {
-                        <!-- Display a message if no hobbies -->
-                        <span>No Coffee</span>
+                        <!-- Display a message if no addins -->
+                        <span>No Add-Ins</span>
                     }
                 </td>
                 <td>
-                    <!-- Check if hobbies exist -->
+                    <!-- Check if order exist -->
                     @if (paymentData.Order != null && paymentData.Order.Any())
                     {
-                        <!-- Display hobbies in a list -->
                     <ul>
+                            <!-- Display payment status from order list -->
                             @foreach (var order in paymentData.Order)
                             {
                                 <li>@order.PaymentStatus</li>
@@ -94,8 +93,8 @@
                     }
                     else
                     {
-                        <!-- Display a message if no hobbies -->
-                        <span>No hobbies</span>
+                        <!-- Display a message if no payment status -->
+                        <span>No Status</span>
                     }
                 </td>
                 <td>@paymentData.PaymentDatetime</td>
@@ -108,29 +107,34 @@
 </div>
 
 @code {
+    private string searchName = string.Empty;
+    private List<MakePayment> filteredPaymentData;
+
     // Download PDF function
     public void DownloadPdf()
     {
         try
         {
-            var paymentDataList = PaymentServices.RetrievePaymentData();
+            // Generate HTML content for the PDF report
+            var content = DownloadPDFServices.GenerateHtmlReport();
 
-            var content = GenerateHtmlReport();
-
+            // Initialize the Chrome PDF renderer
             var pdf = new ChromePdfRenderer();
-            //Convert HTML to Pdf
+
+            // Convert HTML to PDF
             var pdfStream = pdf.RenderHtmlAsPdf(content).Stream;
 
+            // Specify the path where the PDF file will be saved
             string pdfPath = @"C:\Users\18lim\OneDrive\Desktop\Application Development\Window Application\BisleriumCafé\wwwroot\report\";
 
-            //Combining file FormData.pdf with directory and also creating the pdf file at the same time using FileMode inbuilt class of .net and its method and finally storing it in variable fileStream
+            // Combine file FormData.pdf with the directory and create the PDF file using FileMode
             using (var fileStream = new System.IO.FileStream(Path.Combine(pdfPath, "Report.pdf"), System.IO.FileMode.Create))
             {
-                pdfStream.CopyToAsync(fileStream); //copying the data of pdf inside application to the pdf created in you device
+                pdfStream.CopyToAsync(fileStream); // Copying the data of PDF inside the application to the PDF created on your device
             }
-            // Show notification
-            App.Current.MainPage.DisplayAlert("Success", "File Downloaded Successfully", "Ok");
 
+            // Show success notification
+            App.Current.MainPage.DisplayAlert("Success", "File Downloaded Successfully", "Ok");
         }
         catch (Exception ex)
         {
@@ -138,105 +142,19 @@
         }
     }
 
-    public (List<ReportData>, List<ReportData>) CalculateReportTopFiveItem()
-    {
-        var orderData = OrderServices.RetrieveOrderData();
-        var topCoffees = orderData
-            .SelectMany(o => o.Coffee)
-            .GroupBy(c => c.CoffeeName)
-            .Select(g => new ReportData
-                {
-                    Name = g.Key,
-                    Quantity = g.Sum(c => 1), // Count the occurrences of each coffee type
-                    Revenue = g.Sum(c => c.CoffeePrice) // Calculate the total revenue for each coffee type
-                })
-            .OrderByDescending(r => r.Quantity)
-            .Take(5)
-            .ToList();
-
-        // Calculate top five add-ins based on quantity (example, modify as per your data structure)
-        var topAddIns = orderData
-            .SelectMany(o => o.AddIns)
-            .GroupBy(a => a.Name)
-            .Select(g => new ReportData
-                {
-                    Name = g.Key,
-                    Quantity = g.Sum(a => 1), // Count the occurrences of each add-in
-                    Revenue = g.Sum(a => a.Price) // Calculate the total revenue for each add-in
-                })
-            .OrderByDescending(r => r.Quantity)
-            .Take(5)
-            .ToList();
-
-        return (topCoffees, topAddIns);
-    }
-
-    public (double, double) CalculateTotalRevenue()
-    {
-        var paymentData = PaymentServices.RetrievePaymentData();
-        DateTime currentDate = DateTime.Now;
-        double totalRevenueCurrentDay = paymentData
-            .Where(p => p.PaymentDatetime.Date == currentDate.Date)
-            .Sum(p => p.PaidPrice);
-
-        double totalRevenueCurrentMonth = paymentData
-            .Where(p => p.PaymentDatetime.Month == currentDate.Month && p.PaymentDatetime.Year == currentDate.Year)
-            .Sum(p => p.PaidPrice);
-
-        return (totalRevenueCurrentDay, totalRevenueCurrentMonth);
-    }
-
-    public string GenerateHtmlReport()
-    {
-        var (topCoffees, topAddIns) = CalculateReportTopFiveItem();
-        var (totalRevenueCurrentDay, totalRevenueCurrentMonth) = CalculateTotalRevenue();
-
-        var htmlContent = new StringBuilder();
-
-        htmlContent.AppendLine("<html><body>");
-        htmlContent.AppendLine("<h1>Top Five Coffee Items</h1>");
-        htmlContent.AppendLine("<table border='1'><tr><th>Name</th><th>Quantity</th><th>Revenue</th></tr>");
-
-        foreach (var coffee in topCoffees)
-        {
-            htmlContent.AppendLine($"<tr><td>{coffee.Name}</td><td>{coffee.Quantity}</td><td>{coffee.Revenue}</td></tr>");
-        }
-
-        htmlContent.AppendLine("</table>");
-        htmlContent.AppendLine("<head> <title>Top Coffee and Add-Ins - Revenue Report</title></head>");
-
-        htmlContent.AppendLine("<h1>Top Five Add-Ins</h1>");
-        htmlContent.AppendLine("<table border='1'><tr><th>Name</th><th>Quantity</th><th>Revenue</th></tr>");
-
-        foreach (var addIn in topAddIns)
-        {
-            htmlContent.AppendLine($"<tr><td>{addIn.Name}</td><td>{addIn.Quantity}</td><td>{addIn.Revenue}</td></tr>");
-        }
-
-        htmlContent.AppendLine("</table>");
-
-        htmlContent.AppendLine("<h1>Total Revenue</h1>");
-        htmlContent.AppendLine($"<p>Total Revenue for the Current Day: {totalRevenueCurrentDay}</p>");
-        htmlContent.AppendLine($"<p>Total Revenue for the Current Month: {totalRevenueCurrentMonth}</p>");
-        htmlContent.AppendLine("</body></html>");
-
-        return htmlContent.ToString();
-    }
-
-    private string searchName = string.Empty;
-    private List<MakePayment> filteredPaymentData;
-
+    // Initialize the component
     protected override void OnInitialized()
     {
         // Initialize the filteredPaymentData with all payment data initially
         filteredPaymentData = PaymentServices.RetrievePaymentData();
     }
 
+    // Search for payment data based on the entered name
     public void SearchName()
     {
-        // Filter payment data based on the entered email
         if (!string.IsNullOrWhiteSpace(searchName))
         {
+            // Filter payment data based on the entered name
             filteredPaymentData = PaymentServices.RetrievePaymentData()
                 .Where(p => p.CustomerName.Contains(searchName, StringComparison.OrdinalIgnoreCase))
                 .ToList();

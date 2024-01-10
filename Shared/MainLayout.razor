@@ -3,8 +3,8 @@
 @using BisleriumCafé.Pages
 @inject NavigationManager NavigationManager
 
-@* @if (UserRole.Role == "Admin" || UserRole.Role == "Staff") *@
-@if (true)
+<!-- Check user role to validate for login -->
+@if (UserRole.Role == "Admin" || UserRole.Role == "Staff")
 {
     <div class="page">
         <div class="sidebar">
@@ -20,5 +20,6 @@
 }
 else
 {
+    <!-- Navigate to login page -->
     <Login />
 }

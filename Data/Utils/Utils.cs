@@ -19,7 +19,7 @@ namespace BisleriumCafé.Data.Utils
         }
 
         // Returns the path of the file where form data will be stored.
-        public static string OrderDataFilePath()
+        public static string OrderDataFilePath() // This method is used for order data.
         {
             string directoryPathCreated = ApplicationDirectoryPath();   // Calling the method ApplicationDirectoryPath That returns the folder created, and storing it in directoryPathCreated variable
             string filePath = Path.Combine(directoryPathCreated, "OrderData.json");  // Combine the directory path with the file name to get the complete file path.
@@ -43,7 +43,7 @@ namespace BisleriumCafé.Data.Utils
         }
 
         // Returns the path of the file where form data will be stored.
-        public static string PaymentDataFilePath()
+        public static string PaymentDataFilePath()  // This method is used for payment data.
         {
             string directoryPathCreated = ApplicationDirectoryPath();   // Calling the method ApplicationDirectoryPath That returns the folder created, and storing it in directoryPathCreated variable
             string filePath = Path.Combine(directoryPathCreated, "PaymentData.json");  // Combine the directory path with the file name to get the complete file path.
@@ -94,7 +94,7 @@ namespace BisleriumCafé.Data.Utils
 
 
         // Returns the path of the file where coffee data will be stored.
-        public static string CoffeeFilePath()   // This method is used for addins data.
+        public static string CoffeeFilePath()   // This method is used for coffee data.
         {
             // Similar implementation as ApplicationFilePath.
             string directoryPathCreated = ApplicationDirectoryPath();

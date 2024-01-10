@@ -11,11 +11,11 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Loop through each hobby data -->
+        <!-- Loop through each coffee data -->
         @foreach (var coffeeData in CoffeeServices.RetrieveCoffeeData())
         {
             <tr>
-                <!-- Display hobby ID and Name -->
+                <!-- Display coffee ID, Name and price -->
                 <td>@coffeeData.Id</td>
                 <td>@coffeeData.CoffeeName</td>
                 <td>@coffeeData.CoffeePrice</td>
@@ -31,7 +31,7 @@
     // Initialize the page on start
     protected override void OnInitialized()
     {
-        // Inject sample hobby data to ensure some data exists
+        // Inject sample coffee data to ensure some data exists
         CoffeeServices.InjectSampleCoffeeData();
         base.OnInitialized();
     }

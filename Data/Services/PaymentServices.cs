@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;  //Giving the reference of the package so that we can use it's method
-using BisleriumCafé.Data.Models;  //Giving the path of the files that are in Model folder i.e. AddForm.cs and Hobby.cs, Allowing us to use it
-using BisleriumCafé.Data.Utils;  //Giving the path of the files that is in Utils folder i.e. FormUtils.cs, allowing us to use it's methods
+using BisleriumCafé.Data.Models;  
+using BisleriumCafé.Data.Utils;  
 
 namespace BisleriumCafé.Data.Services;
 
-// Service class responsible for handling operations like Saving, Retrieving overall Manipulating related to form data.
+// Service class responsible for handling operations like Saving, Retrieving overall Manipulating related to Payment data.
 public class PaymentServices
 {
     // Saves user Input in Form to a JSON file.
@@ -13,9 +13,9 @@ public class PaymentServices
         // Gets the file path where form data will be stored from ApplicationFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.
         string filePath = FormUtils.PaymentDataFilePath();
-        try // Deserialize existing JSON data from the file into a list of AddForm objects called formList.
+        try 
         {
-            List<MakePayment> paymentList; // object of List of AddForm i.e. formList
+            List<MakePayment> paymentList; 
             string existingJsonData = File.ReadAllText(filePath); //ReadAllText reads the datas inside the file from filePath Variable and Stores in variable called existingJsonData
 
             // If the existingJSONData variable is empty, initialize a new list; otherwise, deserialize the data.
@@ -71,6 +71,7 @@ public class PaymentServices
         }
     }
 
+    //Function to get total number of payment in json
     public static int GetTotalPaymentsCount()
     {
         // Load payment data from the JSON file
@@ -83,5 +84,72 @@ public class PaymentServices
 
         // Return the total payments count
         return uniquePurchaseIdCount;
+    }
+
+    //Function for updatin the order json after payment
+    public static void UpdateOrderDataInJson(AddOrder updatedOrder)
+    {
+        try
+        {
+            var orders = OrderServices.RetrieveOrderData();
+
+            // Find the index of the existing order with the same OrderId
+            int index = orders.FindIndex(order => order.OrderId == updatedOrder.OrderId);
+
+            if (index != -1)
+            {
+                // Replace the existing order with the updated order
+                orders[index] = updatedOrder;
+
+                // Serialize the updated list of orders back to JSON and overwrite the file
+                SaveUpdatedOrderDataInJson(orders);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading or updating JSON file: {ex.Message}");
+            // Handle exceptions accordingly (logging, displaying an error message, etc.)
+        }
+    }
+
+    //Function to save the json file after payment
+    public static void SaveUpdatedOrderDataInJson(List<AddOrder> orders)
+    {
+        try
+        {
+            string filePath = FormUtils.OrderDataFilePath();
+
+            // Serialize the list of form data to JSON format with formatting Indented
+            string orderJsonData = JsonConvert.SerializeObject(orders, Formatting.Indented);
+
+            // Write the JSON data back to the file.
+            File.WriteAllText(filePath, orderJsonData);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions by displaying an alert with the error message.
+            Console.WriteLine($"Error writing JSON file: {ex.Message}");
+            App.Current.MainPage.DisplayAlert("Error", $"Error Saving Data", "OK");
+        }
+    }
+
+    // Function to get the number of payments made by a user with a specific email address
+    public static int GetPaymentsCountByEmail(string userEmail)
+    {
+        try
+        {
+            var payments = PaymentServices.RetrievePaymentData();
+
+            // Filter payments based on the provided email address
+            var userPayments = payments.Where(payment => payment.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            return userPayments.Count;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading or parsing JSON file: {ex.Message}");
+            // Handle exceptions accordingly (logging, displaying an error message, etc.)
+            return 0;
+        }
     }
 }

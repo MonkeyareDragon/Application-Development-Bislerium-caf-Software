@@ -1,5 +1,4 @@
-﻿<!-- Razor page for editing a hobby with a specified Id -->
-@page "/Payment/{Id:guid}"
+﻿@page "/Payment/{Id:guid}"
 <!-- Inject the NavigationManager Service for page navigation -->
 @inject NavigationManager NavManager
 @using BisleriumCafé.Data.Models;
@@ -15,10 +14,9 @@
     <ValidationSummary />
     <div class="pay-container">
         <label for="Name">Name:</label>
-        <!-- InputText component with two-way data binding to the AddIn's Name property -->
         <InputText id="Name" class="form-control" @bind-Value="payment.CustomerName" />
+
         <label for="Price">Email:</label>
-        <!-- InputNumber component with two-way data binding to the AddIn's Price property -->
         <InputText id="Email" class="form-control" @bind-Value="payment.Email" />
 
         <!-- Checkbox for Active Customer -->
@@ -32,16 +30,13 @@
 </EditForm>
 
 @code {
-    [Parameter] // Parameter to capture the AddIns Id from the route above /EditAddIns/{Id:guid}
+    [Parameter] // Parameter to capture the Order Id from the route above /Payment/{Id:guid}
     public Guid id { get; set; }
-
-    // AddIns object to store and edit addins information
+    
     public MakePayment payment = new MakePayment();
 
-    // HandleSubmit method is called on form submission
     public void HandlePayment()
     {
-        // Set default values for PaymentId, OrderId, and PaymentDatetime
         payment.PaymentId = Guid.NewGuid();
 
         // Retrieve order details based on OrderId
@@ -54,18 +49,18 @@
             orderDetails.PaymentStatus = "Paid";
             //OrderServices.SaveOrderDataInJson(orderDetails);
 
-            // Increment the PurchasesCount
             payment.PurchasesCount = PaymentServices.GetTotalPaymentsCount();
 
             payment.PaidPrice = orderDetails.TotalPrice;
 
-            int userPaymentsCount = GetPaymentsCountByEmail(payment.Email);
+            int userPaymentsCount = PaymentServices.GetPaymentsCountByEmail(payment.Email);
 
-            // Check if the customer is a regular member
-            if (payment.PurchasesCount == 10)
+            // Check the overall payment number
+            if (payment.PurchasesCount == 9)
             {
-                // Apply 10% discount for regular members
+                // Apply 10% discount for 10 total sell
                 payment.PaidPrice *= 0.9;
+                App.Current.MainPage.DisplayAlert("Hurray!", "Your have 10% discount for our 10 total sell!", "Ok");
             }
             else if (payment.IsActiveCustomer)
             {
@@ -74,93 +69,21 @@
             }
             else if (userPaymentsCount % 4 == 0)
             {
-                // Apply additional discount for every 10th payment
+                // Apply additional discount for every 5th payment of user
                 payment.PaidPrice *= 0.9;
+                App.Current.MainPage.DisplayAlert("Hurray!", "Your have 10% discount for your 5th purchase!", "Ok");
             }
             payment.Order = new List<AddOrder> { orderDetails };
         }
         payment.PaymentDatetime = DateTime.Now;
 
-
-
         // Save payment data to JSON file
         PaymentServices.SavePaymentDataInJson(payment);
-
-        UpdateOrderDataInJson(orderDetails);
+        //Change the stats of the Payment
+        PaymentServices.UpdateOrderDataInJson(orderDetails);
 
         // Reset the form object
         payment = new MakePayment();
-
-
-
-        // Optionally navigate to a different page after saving
-        // NavManager.NavigateTo("/paymentConfirmation");
+        NavManager.NavigateTo("/paymentData");
     }
-
-
-    // Function to get the number of payments made by a user with a specific email address
-    public static int GetPaymentsCountByEmail(string userEmail)
-    {
-        try
-        {
-            var payments = PaymentServices.RetrievePaymentData();
-
-            // Filter payments based on the provided email address
-            var userPayments = payments.Where(payment => payment.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            return userPayments.Count;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading or parsing JSON file: {ex.Message}");
-            // Handle exceptions accordingly (logging, displaying an error message, etc.)
-            return 0;
-        }
-    }
-
-    public static void UpdateOrderDataInJson(AddOrder updatedOrder)
-    {
-        try
-        {
-            var orders = OrderServices.RetrieveOrderData();
-
-            // Find the index of the existing order with the same OrderId
-            int index = orders.FindIndex(order => order.OrderId == updatedOrder.OrderId);
-
-            if (index != -1)
-            {
-                // Replace the existing order with the updated order
-                orders[index] = updatedOrder;
-
-                // Serialize the updated list of orders back to JSON and overwrite the file
-                SaveUpdatedOrderDataInJson(orders);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error reading or updating JSON file: {ex.Message}");
-            // Handle exceptions accordingly (logging, displaying an error message, etc.)
-        }
-    }
-
-    public static void SaveUpdatedOrderDataInJson(List<AddOrder> orders)
-    {
-        try
-        {
-            string filePath = FormUtils.OrderDataFilePath();
-
-            // Serialize the list of form data to JSON format with formatting Indented
-            string orderJsonData = JsonConvert.SerializeObject(orders, Formatting.Indented);
-
-            // Write the JSON data back to the file.
-            File.WriteAllText(filePath, orderJsonData);
-        }
-        catch (Exception ex)
-        {
-            // Handle exceptions by displaying an alert with the error message.
-            Console.WriteLine($"Error writing JSON file: {ex.Message}");
-            App.Current.MainPage.DisplayAlert("Error", $"Error Saving Data", "OK");
-        }
-    }
-
 }

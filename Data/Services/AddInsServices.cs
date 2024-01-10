@@ -1,21 +1,21 @@
 ﻿using Newtonsoft.Json; //Giving the reference of the package so that we can use it's method
-using BisleriumCafé.Data.Models; //Giving the reference of the package so that we can use it's method
-using BisleriumCafé.Data.Utils; //Giving the reference of the package so that we can use it's method
+using BisleriumCafé.Data.Models; 
+using BisleriumCafé.Data.Utils; 
 
 
-// This class provides methods for saving, retrieving, and manipulating hobby data.
+// This class provides methods for saving, retrieving, and manipulating addins data.
 namespace BisleriumCafé.Data.Services;
 
 public class AddInsServices
 {
-    // Saves lists of hobby data Injected to a JSON file.
+    // Saves lists of addins data Injected to a JSON file.
     public static void SaveAddInsToJson(List<AddIns> addins)
     {
         // Gets the file path where form data will be stored from ApplicationFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.
         string filePath = FormUtils.AddInsFilePath();
 
-        // Serialize the list of hobbies to JSON format with formatting Indented and store it in Variable jsonData
+        // Serialize the list of addins to JSON format with formatting Indented and store it in Variable jsonData
         string jsonData = JsonConvert.SerializeObject(addins, Formatting.Indented);
 
         // Write the JSON data to the file given from filePath variable and data from jsonData variable.
@@ -25,14 +25,14 @@ public class AddInsServices
     //This method Injects the data Into the Json File Manually by creating the multiple objects and Passing it to the list only if the data inside the file is empty.
     public static void InjectSampleAddInsData()
     {
-        // Gets the file path where hobby data will be stored from HobbiesFilePath method
+        // Gets the file path where addins data will be stored from AddinsFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.
         string filePath = FormUtils.AddInsFilePath();
 
         // Read existing data from the file and store it in variable existingData
         var existingData = File.ReadAllText(filePath);
 
-        // If the file is empty, injects a list of sample hobby data in a object of List<Hobby> called sampleHobbies first and saves it in a Json File by calling method SaveHobbiesToJson.
+        // If the file is empty, injects a list of sample addins data in a object of List<addins> called sampleHobbies first and saves it in a Json File by calling method SaveAddinsToJson.
         if (string.IsNullOrEmpty(existingData))
         {
             List<AddIns> sampleAddIns = new()
@@ -48,14 +48,14 @@ public class AddInsServices
                 new AddIns { Name = "Vanilla extract", Price = 150 },
                 new AddIns { Name = "Marshmallows", Price = 30},
             };
-            SaveAddInsToJson(sampleAddIns); // Save the sample hobby data to the JSON file by calling SaveHobbiesToJson Method and passing sampleHobbies as it Argument.
+            SaveAddInsToJson(sampleAddIns); 
         }
     }
 
-    // Retrieves hobby data from the JSON file.
+    // Retrieves addins data from the JSON file.
     public static List<AddIns> RetrieveAddInsData()
     {
-        // Gets the file path where hobby data is stored from HobbiesFilePath method
+        // Gets the file path where addins data is stored from AddinsFilePath method
         // in FormUtils class in Utils Folder and stores it in the variable filePath.
         string filePath = FormUtils.AddInsFilePath();
         try
@@ -63,7 +63,7 @@ public class AddInsServices
             string existingJsonData = File.ReadAllText(filePath); // Read existing JSON data from the file.
 
             // If the existing JSON data is empty, return an empty list;
-            // otherwise, deserialize the data into a list of Hobby objects.
+            // otherwise, deserialize the data into a list of addins objects.
             if (string.IsNullOrEmpty(existingJsonData))
             {
                 return new List<AddIns>();
@@ -78,32 +78,32 @@ public class AddInsServices
         }
     }
 
-    // Retrieves a specific hobby by its Id.
+    // Retrieves a specific addins by its Id.
     public static AddIns GetAddInsById(Guid id)
     {
-        List<AddIns> addins = RetrieveAddInsData(); // Retrieves the list of hobbies and stores it in hobbies object
+        List<AddIns> addins = RetrieveAddInsData(); // Retrieves the list of addins and stores it in addins object
 
-        // Return the first hobby with the specified Id.
-        return addins.FirstOrDefault(x => x.Id == id); //creating arrow function and checking whether the Id of Hobbies is equal to the id of parameter that recieves value later on.
+        // Return the first addins with the specified Id.
+        return addins.FirstOrDefault(x => x.Id == id); //creating arrow function and checking whether the Id of addins is equal to the id of parameter that recieves value later on.
     }
 
-    // Edits the name of a specific hobby.
+    // Edits the name of a specific addins.
     public static List<AddIns> EditAddIns(Guid id, string newName, double newPrice)
     {
-        // Retrieve the list of hobbies.
+        // Retrieve the list of addins.
         List<AddIns> addins = RetrieveAddInsData();
-        // Find the hobby with the specified Id.
+        // Find the addins with the specified Id.
         AddIns editAddIns = addins.FirstOrDefault(x => x.Id == id);
-        // If the hobby is not found, throw an exception.
+        // If the addins is not found, throw an exception.
         if (editAddIns == null)
         {
             throw new Exception("Hobby not found");
         }
-        // Update the name of the hobby.
+        // Update the name of the addins.
         editAddIns.Name = newName;
-        // Update the price of the hobby.
+        // Update the price of the addins.
         editAddIns.Price = newPrice;
-        SaveAddInsToJson(addins); // Save the updated list of hobbies to the JSON file by calling method SaveHobbiesToJson
-        return addins;  // Return the updated list of hobbies.
+        SaveAddInsToJson(addins); // Save the updated list of addins to the JSON file by calling method SaveAddinsToJson
+        return addins;  // Return the updated list of addins.
     }
 }

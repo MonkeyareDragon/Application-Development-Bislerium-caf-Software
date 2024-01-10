@@ -5,9 +5,11 @@
 <h3>Logout</h3>
 
 @code {
+    //Method to logout as it remove the role
     protected override void OnInitialized()
     {
         UserRole.Role = "";
+        App.Current.MainPage.DisplayAlert("Message", "Your have been logout!", "Ok");
         NavManager.NavigateTo("/index");
     }
 }

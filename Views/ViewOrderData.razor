@@ -1,5 +1,4 @@
-﻿<!-- Razor page for viewing form data saved in Json file-->
-@page "/orderData"
+﻿@page "/orderData"
 @using BisleriumCafé.Data.Services
 
 <h3 class="custom-heading">Order Data</h3>
@@ -17,16 +16,16 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Loop through each form data -->
+        <!-- Loop through each order data -->
         @foreach (var orderData in OrderServices.RetrieveOrderData())
         {
             <tr>
-                <!-- Display basic form data -->
+                <!-- Display order data -->
                 <td>
-                    <!-- Check if hobbies exist -->
+                    <!-- Check if Coffee exist -->
                     @if (orderData.Coffee != null && orderData.Coffee.Any())
                     {
-                        <!-- Display hobbies in a list -->
+                        <!-- Display Coffee name and price in a list -->
                             <ul>
                             @foreach (var coffee in orderData.Coffee)
                             {
@@ -37,14 +36,14 @@
                     else
                     {
                         <!-- Display a message if no hobbies -->
-                        <span>No hobbies</span>
+                        <span>No Coffee</span>
                     }
                 </td>
                 <td>
-                    <!-- Check if hobbies exist -->
+                    <!-- Check if addins exist -->
                     @if (orderData.AddIns != null && orderData.AddIns.Any())
                     {
-                        <!-- Display hobbies in a list -->
+                            <!-- Display addins in a list -->
                             <ul>
                             @foreach (var addins in orderData.AddIns)
                             {
@@ -54,8 +53,8 @@
                     }
                     else
                     {
-                        <!-- Display a message if no hobbies -->
-                        <span>No hobbies</span>
+                        <!-- Display a message if no addins -->
+                        <span>No Addins</span>
                     }
                 </td>
                 <td>@orderData.PaymentStatus</td>
@@ -83,19 +82,9 @@
     [Inject]
     private NavigationManager Nav { get; set; }
 
-    // Method to navigate to the EditHobby page with a specific hobby Id
+    // Method to navigate to the Payment page with a specific order Id
     public void Payment(Guid id)
     {
-        // try
-        // {
-        //     // Navigate to the EditHobby page with the specific hobby ID
-        //     Nav.NavigateTo($"/Payment/{id}");
-        // }
-        // catch (Exception ex)
-        // {
-        //     // Handle any navigation errors
-        //     Console.WriteLine($"Error Navigating:{ex.Message}");
-        // }
         Nav.NavigateTo($"/Payment/{id}");
     }
 }

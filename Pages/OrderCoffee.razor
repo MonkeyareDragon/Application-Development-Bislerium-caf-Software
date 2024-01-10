@@ -44,23 +44,28 @@
 @code {
     private Guid selectedCoffeeId;
     private List<AddIns> selectedAddIns = new List<AddIns>();
-    // Form object to store form data
     AddOrder order = new AddOrder();
 
+    // Method to calculate the total price of the order
     private double CalculateTotalPrice()
     {
+        // Retrieve the price of the selected coffee item
         double coffeePrice = CoffeeServices.RetrieveCoffeeData().FirstOrDefault(c => c.Id == selectedCoffeeId)?.CoffeePrice ?? 0;
+
+        // Calculate the total price by adding the coffee price and the total price of selected add-ins
         double addInsPrice = selectedAddIns.Sum(a => a.Price);
 
         return coffeePrice + addInsPrice;
     }
 
+    // Method called when the state of an add-ins checkbox changes
     private void AddInsCheckboxChanged(ChangeEventArgs e, AddIns addIns)
     {
         bool isChecked = (bool)e.Value;
 
         if (isChecked)
         {
+            // Add the selected add-ins to the list
             selectedAddIns.Add(addIns);
         }
         else
@@ -69,10 +74,12 @@
             var existingAddIns = selectedAddIns.FirstOrDefault(a => a.Id == addIns.Id);
             if (existingAddIns != null)
             {
+                // Remove the add-ins from the list
                 selectedAddIns.Remove(existingAddIns);
             }
         }
 
+        // Notify Blazor that the state has changed and it needs to re-render
         StateHasChanged();
     }
 
@@ -92,10 +99,8 @@
         // Save form data to JSON file
         OrderServices.SaveOrderDataInJson(order);
 
+        App.Current.MainPage.DisplayAlert("Success", "Your Order for coffee is successfull!", "Ok");
         // Reset the form object
         order = new AddOrder();
-
-        // Navigate to the FormData page if needed
-        // NavigationManager.NavigateTo("/formData");
     }
 }
