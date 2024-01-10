@@ -1,12 +1,11 @@
 ﻿<!-- Razor page for viewing form data saved in Json file-->
 @page "/orderData"
 @using BisleriumCafé.Data.Services
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <h3 class="custom-heading">Order Data</h3>
 
-<div class="container mt-5">
-    <table class="table table-bordered">
+<div>
+    <table>
     <thead>
         <tr>
             <th>Coffee Name</th>
@@ -28,7 +27,7 @@
                     @if (orderData.Coffee != null && orderData.Coffee.Any())
                     {
                         <!-- Display hobbies in a list -->
-                            <ul class="list-unstyled">
+                            <ul>
                             @foreach (var coffee in orderData.Coffee)
                             {
                                 <li>@coffee.CoffeeName - Rs.@coffee.CoffeePrice</li>
@@ -46,7 +45,7 @@
                     @if (orderData.AddIns != null && orderData.AddIns.Any())
                     {
                         <!-- Display hobbies in a list -->
-                            <ul class="list-unstyled">
+                            <ul>
                             @foreach (var addins in orderData.AddIns)
                             {
                                 <li>@addins.Name</li>
@@ -63,8 +62,15 @@
                 <td>@orderData.OrderDatetime</td>
                 <td>@orderData.TotalPrice</td>
                 <td>
-                    <!-- Button to navigate to the EditHobby page with the specific hobby ID -->
-                    <button type="submit" @onclick="@(()=>Payment(orderData.OrderId))" class="btn btn-primary">Pay</button>
+                        <!-- Display the "Pay" button only if the payment status is "Pending" -->
+                        @if (orderData.PaymentStatus == "Pending")
+                        {
+                            <button type="submit" @onclick="@(() => Payment(orderData.OrderId))" class="btn btn-primary">Pay</button>
+                        }
+                        else
+                        {
+                            <span>No Remark</span>
+                        }
                 </td>
             </tr>
         }

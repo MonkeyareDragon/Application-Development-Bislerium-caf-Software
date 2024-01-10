@@ -25,5 +25,6 @@ namespace BisleriumCafé.Data.Models
 
         public int PurchasesCount { get; set; }
         public double PaidPrice { get; set; }
+        public bool IsActiveCustomer { get; set; }
     }
 }

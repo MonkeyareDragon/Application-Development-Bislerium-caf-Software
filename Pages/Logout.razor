@@ -1,0 +1,13 @@
+﻿@page "/logout"
+@using BisleriumCafé.Data.Models
+@inject NavigationManager NavManager
+
+<h3>Logout</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        UserRole.Role = "";
+        NavManager.NavigateTo("/index");
+    }
+}

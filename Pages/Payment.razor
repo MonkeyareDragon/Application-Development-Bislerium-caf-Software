@@ -5,6 +5,7 @@
 @using BisleriumCafé.Data.Models;
 @using BisleriumCafé.Data.Services;
 @using BisleriumCafé.Data.Utils;
+@using Newtonsoft.Json;
 
 <h3>Make Payment</h3>
 
@@ -19,6 +20,12 @@
         <label for="Price">Email:</label>
         <!-- InputNumber component with two-way data binding to the AddIn's Price property -->
         <InputText id="Email" class="form-control" @bind-Value="payment.Email" />
+
+        <!-- Checkbox for Active Customer -->
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" @bind="payment.IsActiveCustomer" />
+            <label class="form-check-label" for="IsActiveCustomer">Active Customer</label>
+        </div>
     </div>
     <!-- Submit button for saving changes -->
     <button type="submit" class="btn btn-primary">Save</button>
@@ -52,28 +59,108 @@
 
             payment.PaidPrice = orderDetails.TotalPrice;
 
+            int userPaymentsCount = GetPaymentsCountByEmail(payment.Email);
+
             // Check if the customer is a regular member
             if (payment.PurchasesCount == 10)
             {
                 // Apply 10% discount for regular members
                 payment.PaidPrice *= 0.9;
             }
-
-
+            else if (payment.IsActiveCustomer)
+            {
+                // Apply 10% discount for active members
+                payment.PaidPrice *= 0.9;
+            }
+            else if (userPaymentsCount % 4 == 0)
+            {
+                // Apply additional discount for every 10th payment
+                payment.PaidPrice *= 0.9;
+            }
             payment.Order = new List<AddOrder> { orderDetails };
         }
         payment.PaymentDatetime = DateTime.Now;
 
-        
+
 
         // Save payment data to JSON file
         PaymentServices.SavePaymentDataInJson(payment);
 
+        UpdateOrderDataInJson(orderDetails);
+
         // Reset the form object
         payment = new MakePayment();
 
+
+
         // Optionally navigate to a different page after saving
         // NavManager.NavigateTo("/paymentConfirmation");
+    }
+
+
+    // Function to get the number of payments made by a user with a specific email address
+    public static int GetPaymentsCountByEmail(string userEmail)
+    {
+        try
+        {
+            var payments = PaymentServices.RetrievePaymentData();
+
+            // Filter payments based on the provided email address
+            var userPayments = payments.Where(payment => payment.Email.Equals(userEmail, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            return userPayments.Count;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading or parsing JSON file: {ex.Message}");
+            // Handle exceptions accordingly (logging, displaying an error message, etc.)
+            return 0;
+        }
+    }
+
+    public static void UpdateOrderDataInJson(AddOrder updatedOrder)
+    {
+        try
+        {
+            var orders = OrderServices.RetrieveOrderData();
+
+            // Find the index of the existing order with the same OrderId
+            int index = orders.FindIndex(order => order.OrderId == updatedOrder.OrderId);
+
+            if (index != -1)
+            {
+                // Replace the existing order with the updated order
+                orders[index] = updatedOrder;
+
+                // Serialize the updated list of orders back to JSON and overwrite the file
+                SaveUpdatedOrderDataInJson(orders);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error reading or updating JSON file: {ex.Message}");
+            // Handle exceptions accordingly (logging, displaying an error message, etc.)
+        }
+    }
+
+    public static void SaveUpdatedOrderDataInJson(List<AddOrder> orders)
+    {
+        try
+        {
+            string filePath = FormUtils.OrderDataFilePath();
+
+            // Serialize the list of form data to JSON format with formatting Indented
+            string orderJsonData = JsonConvert.SerializeObject(orders, Formatting.Indented);
+
+            // Write the JSON data back to the file.
+            File.WriteAllText(filePath, orderJsonData);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions by displaying an alert with the error message.
+            Console.WriteLine($"Error writing JSON file: {ex.Message}");
+            App.Current.MainPage.DisplayAlert("Error", $"Error Saving Data", "OK");
+        }
     }
 
 }

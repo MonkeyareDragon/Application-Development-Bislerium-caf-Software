@@ -7,17 +7,16 @@
 @using System.Text;
 @using System.Collections.Generic;
 @using System.Linq;
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <h3 class="custom-heading">Payment Data</h3>
 <h6>Download the PDF Report.</h6>
 <button class="btn btn-primary" @onclick="DownloadPdf">Download</button>
 <div class="search-container">
-    <input type="text" class="search-input" id="emailSearch" placeholder="Search Email">
-    <button class="btn btn-primary" onclick="searchAddIns()">Search</button>
+    <input type="text" class="search-input" id="emailSearch" @bind="searchName" placeholder="Search Email">
+    <button class="btn btn-primary" @onclick="SearchName">Search</button>
 </div>
-<div class="container mt-5">
-<table class="table table-bordered">
+<div>
+<table>
     <thead>
         <tr>
             <th>Customer Name</th>
@@ -31,7 +30,7 @@
     </thead>
     <tbody>
         <!-- Loop through each form data -->
-        @foreach (var paymentData in PaymentServices.RetrievePaymentData())
+        @foreach (var paymentData in filteredPaymentData)
         {
             <tr>
                 <!-- Display basic form data -->
@@ -45,7 +44,7 @@
                         @foreach (var order in paymentData.Order)
                         {
                             <!-- Display hobbies in a list -->
-                            <ul class="list-unstyled">
+                            <ul>
                                 @foreach (var coffee in order.Coffee)
                                 {
                                     <li>@coffee.CoffeeName</li>
@@ -67,7 +66,7 @@
                         @foreach (var order in paymentData.Order)
                         {
                             <!-- Display hobbies in a list -->
-                            <ul class="list-unstyled">
+                            <ul>
                                 @foreach (var addins in order.AddIns)
                                 {
                                     <li>@addins.Name</li>
@@ -86,7 +85,7 @@
                     @if (paymentData.Order != null && paymentData.Order.Any())
                     {
                         <!-- Display hobbies in a list -->
-                    <ul class="list-unstyled">
+                    <ul>
                             @foreach (var order in paymentData.Order)
                             {
                                 <li>@order.PaymentStatus</li>
@@ -222,5 +221,30 @@
         htmlContent.AppendLine("</body></html>");
 
         return htmlContent.ToString();
+    }
+
+    private string searchName = string.Empty;
+    private List<MakePayment> filteredPaymentData;
+
+    protected override void OnInitialized()
+    {
+        // Initialize the filteredPaymentData with all payment data initially
+        filteredPaymentData = PaymentServices.RetrievePaymentData();
+    }
+
+    public void SearchName()
+    {
+        // Filter payment data based on the entered email
+        if (!string.IsNullOrWhiteSpace(searchName))
+        {
+            filteredPaymentData = PaymentServices.RetrievePaymentData()
+                .Where(p => p.CustomerName.Contains(searchName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+        else
+        {
+            // If the search box is empty, show all payment data
+            filteredPaymentData = PaymentServices.RetrievePaymentData();
+        }
     }
 }
