@@ -74,7 +74,7 @@ public class PaymentServices
     public static int GetTotalPaymentsCount()
     {
         // Load payment data from the JSON file
-        var payments = RetrieveFormData();
+        var payments = RetrievePaymentData();
 
         var uniquePurchaseIds = new HashSet<Guid>(payments.Select(purchase => purchase.PaymentId));
 

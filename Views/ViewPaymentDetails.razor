@@ -1,8 +1,12 @@
 ﻿<!-- Razor page for viewing form data saved in Json file-->
 @page "/paymentData"
 @using BisleriumCafé.Data.Services
+@using BisleriumCafé.Data.Models
 <!---- Giving reference to the Package IronPdf to use its method and download functionality-->
 @using IronPdf
+@using System.Text;
+@using System.Collections.Generic;
+@using System.Linq;
 
 <h3>ViewFormData</h3>
 <button class="btn btn-primary" @onclick="DownloadPdf">Download</button>
@@ -20,7 +24,7 @@
     </thead>
     <tbody>
         <!-- Loop through each form data -->
-        @foreach (var paymentData in PaymentServices.RetrieveFormData())
+        @foreach (var paymentData in PaymentServices.RetrievePaymentData())
         {
             <tr>
                 <!-- Display basic form data -->
@@ -101,65 +105,112 @@
     {
         try
         {
-            var formDataList = PaymentServices.RetrievePaymentData();
+            var paymentDataList = PaymentServices.RetrievePaymentData();
 
-            if (formDataList != null && formDataList.Any())
+            var content = GenerateHtmlReport();
+
+            var pdf = new ChromePdfRenderer();
+            //Convert HTML to Pdf
+            var pdfStream = pdf.RenderHtmlAsPdf(content).Stream;
+
+            string pdfPath = @"C:\Users\18lim\OneDrive\Desktop\Application Development\Window Application\BisleriumCafé\wwwroot\report\";
+
+            //Combining file FormData.pdf with directory and also creating the pdf file at the same time using FileMode inbuilt class of .net and its method and finally storing it in variable fileStream
+            using (var fileStream = new System.IO.FileStream(Path.Combine(pdfPath, "Report.pdf"), System.IO.FileMode.Create))
             {
-                // Create a PDF document
-                var pdf = new ChromePdfRenderer();
-
-                // HTML table for PDF
-                var tableHtml = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Hobbies</th></tr></thead><tbody>";
-
-                // Add data to the table
-                // Loop through form data to add to the PDF table
-                foreach (var formData in formDataList)
-                {
-                    tableHtml += "<tr>";
-                    tableHtml += $"<td>{formData.FirstName}</td><td>{formData.LastName}</td><td>{formData.Email}</td><td>{formData.PhoneNumber}</td><td>{formData.Address}</td>";
-                    tableHtml += "<td>";
-
-                    // Check if hobbies exist for the current form data
-                    if (formData.Hobbies != null && formData.Hobbies.Any())
-                    {
-                        tableHtml += "<ul>";
-                        // Loop through hobbies and add to the PDF table
-                        foreach (var hobby in formData.Hobbies)
-                        {
-                            tableHtml += $"<li>{hobby.Name}</li>";
-                        }
-                        tableHtml += "</ul>";
-                    }
-                    else
-                    {
-                        // Display a message if no hobbies
-                        tableHtml += "<span>No hobbies</span>";
-                    }
-
-                    tableHtml += "</td></tr>";
-                }
-
-                tableHtml += "</tbody></table>";
-
-                //Convert HTML to Pdf
-                var pdfStream = pdf.RenderHtmlAsPdf(tableHtml).Stream;
-
-                // Save the PDF Inside the folder
-                string pdfPath = @"Path to the folder from your drive";
-
-                //Combining file FormData.pdf with directory and also creating the pdf file at the same time using FileMode inbuilt class of .net and its method and finally storing it in variable fileStream
-                using (var fileStream = new System.IO.FileStream(Path.Combine(pdfPath, "FormData.pdf"), System.IO.FileMode.Create))
-                {
-                    pdfStream.CopyToAsync(fileStream); //copying the data of pdf inside application to the pdf created in you device
-                }
-
-                // Show notification
-                App.Current.MainPage.DisplayAlert("Success", "File Downloaded Successfully", "Ok");
+                pdfStream.CopyToAsync(fileStream); //copying the data of pdf inside application to the pdf created in you device
             }
+            // Show notification
+            App.Current.MainPage.DisplayAlert("Success", "File Downloaded Successfully", "Ok");
+
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
+    }
+
+    public (List<ReportData>, List<ReportData>) CalculateReportTopFiveItem()
+    {
+        var orderData = OrderServices.RetrieveOrderData();
+        var topCoffees = orderData
+            .SelectMany(o => o.Coffee)
+            .GroupBy(c => c.CoffeeName)
+            .Select(g => new ReportData
+                {
+                    Name = g.Key,
+                    Quantity = g.Sum(c => 1), // Count the occurrences of each coffee type
+                    Revenue = g.Sum(c => c.CoffeePrice) // Calculate the total revenue for each coffee type
+                })
+            .OrderByDescending(r => r.Quantity)
+            .Take(5)
+            .ToList();
+
+        // Calculate top five add-ins based on quantity (example, modify as per your data structure)
+        var topAddIns = orderData
+            .SelectMany(o => o.AddIns)
+            .GroupBy(a => a.Name)
+            .Select(g => new ReportData
+                {
+                    Name = g.Key,
+                    Quantity = g.Sum(a => 1), // Count the occurrences of each add-in
+                    Revenue = g.Sum(a => a.Price) // Calculate the total revenue for each add-in
+                })
+            .OrderByDescending(r => r.Quantity)
+            .Take(5)
+            .ToList();
+
+        return (topCoffees, topAddIns);
+    }
+
+    public (double, double) CalculateTotalRevenue()
+    {
+        var paymentData = PaymentServices.RetrievePaymentData();
+        DateTime currentDate = DateTime.Now;
+        double totalRevenueCurrentDay = paymentData
+            .Where(p => p.PaymentDatetime.Date == currentDate.Date)
+            .Sum(p => p.PaidPrice);
+
+        double totalRevenueCurrentMonth = paymentData
+            .Where(p => p.PaymentDatetime.Month == currentDate.Month && p.PaymentDatetime.Year == currentDate.Year)
+            .Sum(p => p.PaidPrice);
+
+        return (totalRevenueCurrentDay, totalRevenueCurrentMonth);
+    }
+
+    public string GenerateHtmlReport()
+    {
+        var (topCoffees, topAddIns) = CalculateReportTopFiveItem();
+        var (totalRevenueCurrentDay, totalRevenueCurrentMonth) = CalculateTotalRevenue();
+
+        var htmlContent = new StringBuilder();
+
+        htmlContent.AppendLine("<html><body>");
+        htmlContent.AppendLine("<h1>Top Five Coffee Items</h1>");
+        htmlContent.AppendLine("<table border='1'><tr><th>Name</th><th>Quantity</th><th>Revenue</th></tr>");
+
+        foreach (var coffee in topCoffees)
+        {
+            htmlContent.AppendLine($"<tr><td>{coffee.Name}</td><td>{coffee.Quantity}</td><td>{coffee.Revenue}</td></tr>");
+        }
+
+        htmlContent.AppendLine("</table>");
+
+        htmlContent.AppendLine("<h1>Top Five Add-Ins</h1>");
+        htmlContent.AppendLine("<table border='1'><tr><th>Name</th><th>Quantity</th><th>Revenue</th></tr>");
+
+        foreach (var addIn in topAddIns)
+        {
+            htmlContent.AppendLine($"<tr><td>{addIn.Name}</td><td>{addIn.Quantity}</td><td>{addIn.Revenue}</td></tr>");
+        }
+
+        htmlContent.AppendLine("</table>");
+
+        htmlContent.AppendLine("<h1>Total Revenue</h1>");
+        htmlContent.AppendLine($"<p>Total Revenue for the Current Day: {totalRevenueCurrentDay}</p>");
+        htmlContent.AppendLine($"<p>Total Revenue for the Current Month: {totalRevenueCurrentMonth}</p>");
+        htmlContent.AppendLine("</body></html>");
+
+        return htmlContent.ToString();
     }
 }

@@ -1,4 +1,6 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using BisleriumCafé.Data.Models
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BisleriumCafé</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -9,31 +11,42 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="addins" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> View AddIns
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="coffees" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> View Coffees
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="orders">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Create Order
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="orderData">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> View Order
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="paymentData">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> View Payment
-            </NavLink>
-        </div>
+        @if (UserRole.Role == "Staff")
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="index">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Home
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="orders">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Create Order
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="orderData">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> View Order
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="paymentData">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> View Payment
+                </NavLink>
+            </div>
+        }
+        else
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="addins">
+                    <span class="oi oi-home" aria-hidden="true"></span> View AddIns
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="coffees">
+                    <span class="oi oi-home" aria-hidden="true"></span> View Coffees
+                </NavLink>
+            </div>
+        } 
     </nav>
 </div>
 

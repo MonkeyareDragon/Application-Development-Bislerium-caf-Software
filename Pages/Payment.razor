@@ -50,10 +50,11 @@
             // Increment the PurchasesCount
             payment.PurchasesCount = PaymentServices.GetTotalPaymentsCount();
 
+            payment.PaidPrice = orderDetails.TotalPrice;
+
             // Check if the customer is a regular member
             if (payment.PurchasesCount == 10)
             {
-                payment.PaidPrice = orderDetails.TotalPrice;
                 // Apply 10% discount for regular members
                 payment.PaidPrice *= 0.9;
             }

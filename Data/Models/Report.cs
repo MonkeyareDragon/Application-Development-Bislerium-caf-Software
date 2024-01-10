@@ -2,10 +2,10 @@
 
 namespace BisleriumCafé.Data.Models;
 
-public class StaffModel
+public class ReportData
 {
     // Attributes
     public string Name { get; set; }
-    public StaffPassword Password { get; set; }
-    public StaffRole Role { get; set; }
+    public int Quantity { get; set; }
+    public double Revenue { get; set; }
 }

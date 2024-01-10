@@ -13,7 +13,7 @@
 
         <div class="input-field">
             <label for="username">Name</label>
-            <InputText id="Name" type="text" @bind-Value="staffModel.Name" class="form-control" />
+            <InputText id="Name" type="text" @bind-Value="name" class="form-control" />
         </div>
         <div class="input-field">
             <label for="password">Password</label>
@@ -24,55 +24,28 @@
 </div>
 
 @code {
-    StaffModel staffModel = new StaffModel();
+    private string name;
     private string password;
 
     private void SetLogin()
     {
-        // Validate login logic here
-        if (ValidatePassword(password, StaffPassword.StaffPass123))
+        if (password == "admin123")
         {
-            staffModel.Role = StaffRole.Staff;
-            ShowLoginSuccessMessage(StaffRole.Staff);
-            NavigateToIndex();
+            UserRole.Role = "Admin";
+            ShowSuccessAlert(UserRole.Role);
+            NavManager.NavigateTo("/");
         }
-        else if (ValidatePassword(password, StaffPassword.AdminPass456))
+        else if(password == "staff123")
         {
-            staffModel.Role = StaffRole.Admin;
-            ShowLoginSuccessMessage(StaffRole.Admin);
-            NavigateToIndex();
-        }
-        else
-        {
-            ShowLoginErrorMessage();
+            UserRole.Role = "Staff";
+            ShowSuccessAlert(UserRole.Role);
+            NavManager.NavigateTo("/");
         }
     }
 
-    private void ShowLoginSuccessMessage(StaffRole role)
+    private void ShowSuccessAlert(string role)
     {
-        App.Current.MainPage.DisplayAlert("Success", $"Hello {role}, You have successfully logged in!", "Ok");
+        App.Current.MainPage.DisplayAlert("Success", $"Hello {role}, You have SuccessFully Login!", "Ok");
     }
 
-    private void ShowLoginErrorMessage()
-    {
-        App.Current.MainPage.DisplayAlert("Error!", "Invalid credentials. Please try again.", "Ok");
-    }
-
-    private void NavigateToIndex()
-    {
-        try
-        {
-            NavManager.NavigateTo("/index");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error navigating to index page: {ex.Message}");
-        }
-    }
-
-
-    private bool ValidatePassword(string enteredPassword, StaffPassword expectedPassword)
-    {
-        return enteredPassword == expectedPassword.ToString();
-    }
 }

@@ -3,11 +3,7 @@
 @using BisleriumCafé.Pages
 @inject NavigationManager NavigationManager
 
-@code {
-    StaffModel staffModel;
-}
-
-@if ( true )
+@if (UserRole.Role == "Admin" || UserRole.Role == "Staff")
 {
     <div class="page">
         <div class="sidebar">
