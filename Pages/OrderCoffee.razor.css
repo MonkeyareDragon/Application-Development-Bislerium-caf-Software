@@ -1,0 +1,50 @@
+﻿body {
+    font-family: Arial, sans-serif;
+}
+
+.custom-heading {
+    color: #333;
+    background-color: #eaeaea;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group select,
+    .form-group input[type="checkbox"] {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    text-decoration: none;
+    background-color: #7D0DC3;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background-color: #570987;
+    }

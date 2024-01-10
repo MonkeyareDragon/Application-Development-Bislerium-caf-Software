@@ -11,15 +11,15 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
 
-        <div class="input-field">
+        <div class="form-group">
             <label for="username">Name</label>
             <InputText id="Name" type="text" @bind-Value="name" class="form-control" />
         </div>
-        <div class="input-field">
+        <div class="form-group">
             <label for="password">Password</label>
             <InputText id="Password" @bind-Value="password" type="password" class="form-control" />
         </div>
-        <button type="submit" class="login-btn">LOGIN</button>
+        <button type="submit" class="btn btn-primary">LOGIN</button>
     </EditForm>
 </div>
 

@@ -1,10 +1,12 @@
 ﻿<!-- Razor page for viewing form data saved in Json file-->
 @page "/orderData"
 @using BisleriumCafé.Data.Services
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<h3>ViewFormData</h3>
+<h3 class="custom-heading">Order Data</h3>
 
-<table class="table">
+<div class="container mt-5">
+    <table class="table table-bordered">
     <thead>
         <tr>
             <th>Coffee Name</th>
@@ -26,7 +28,7 @@
                     @if (orderData.Coffee != null && orderData.Coffee.Any())
                     {
                         <!-- Display hobbies in a list -->
-                        <ul>
+                            <ul class="list-unstyled">
                             @foreach (var coffee in orderData.Coffee)
                             {
                                 <li>@coffee.CoffeeName - Rs.@coffee.CoffeePrice</li>
@@ -44,7 +46,7 @@
                     @if (orderData.AddIns != null && orderData.AddIns.Any())
                     {
                         <!-- Display hobbies in a list -->
-                        <ul>
+                            <ul class="list-unstyled">
                             @foreach (var addins in orderData.AddIns)
                             {
                                 <li>@addins.Name</li>
@@ -68,6 +70,8 @@
         }
     </tbody>
 </table>
+</div>
+
 @code {
     // Inject NavigationManager for navigation purposes
     [Inject]

@@ -12,7 +12,7 @@
 <EditForm Model="@payment" OnValidSubmit="@HandlePayment">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <div class="form-group">
+    <div class="pay-container">
         <label for="Name">Name:</label>
         <!-- InputText component with two-way data binding to the AddIn's Name property -->
         <InputText id="Name" class="form-control" @bind-Value="payment.CustomerName" />

@@ -1,4 +1,5 @@
 ﻿@using BisleriumCafé.Data.Models
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBH7Aw13P1jI7f35kI=" crossorigin="anonymous" />
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -14,39 +15,59 @@
         @if (UserRole.Role == "Staff")
         {
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="index">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Home
+                <NavLink class="nav-link" href="">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="orders">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Create Order
+                    <span class="oi oi-plus" aria-hidden="true"></span> Create Order
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="orderData">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> View Order
+                    <span class="oi oi-eye" aria-hidden="true"></span> View Order
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="paymentData">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> View Payment
+                    <span class="oi oi-credit-card" aria-hidden="true"></span> View Payment
                 </NavLink>
             </div>
         }
         else
         {
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="addins">
-                    <span class="oi oi-home" aria-hidden="true"></span> View AddIns
+                <NavLink class="nav-link" href="index">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="orders">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Create Order
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="orderData">
+                    <span class="oi oi-eye" aria-hidden="true"></span> View Order
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="paymentData">
+                    <span class="oi oi-credit-card" aria-hidden="true"></span> View Payment
                 </NavLink>
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="coffees">
-                    <span class="oi oi-home" aria-hidden="true"></span> View Coffees
+                    <span class="oi oi-box" aria-hidden="true"></span> View Coffees
                 </NavLink>
             </div>
-        } 
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="addins">
+                    <span class="oi oi-box" aria-hidden="true"></span> View AddIns
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 

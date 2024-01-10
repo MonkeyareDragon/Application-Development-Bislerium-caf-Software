@@ -5,24 +5,9 @@
     "Price": 25.0
   },
   {
-    "Id": "0e03d4cb-1b3b-4609-a8b5-5b5da06b159e",
-    "Name": "Cardamom",
-    "Price": 15.0
-  },
-  {
     "Id": "761d8737-98df-41b0-b09a-34995880c1db",
     "Name": "Cinnamon",
     "Price": 12.5
-  },
-  {
-    "Id": "cb2bed3e-a8ff-48e6-9a6f-e8d6d6d292f3",
-    "Name": "Coconut oil",
-    "Price": 10.0
-  },
-  {
-    "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-    "Name": "Nutmeg",
-    "Price": 100.0
   },
   {
     "Id": "38a48c4e-f737-4136-9a48-14916433ef16",

@@ -5,41 +5,41 @@
 @using Microsoft.JSInterop
 @inject IJSRuntime JSRuntime
 
-<h3>OrderCoffee</h3>
+<h3 class="custom-heading">OrderCoffee</h3>
 
-<!-- EditForm component of blazor for handling form submission and validation -->
-<EditForm Model="@order" OnValidSubmit="@SaveOrder">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    
-    <div>
-        <label for="coffeeName">Coffee Name:</label>
-        <select id="coffeeName" @bind="selectedCoffeeId">
-            @foreach (var coffeeData in CoffeeServices.RetrieveCoffeeData())
+<div class="container">
+    <EditForm Model="@order" OnValidSubmit="@SaveOrder">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        
+        <div class="form-group">
+            <label for="coffeeName">Coffee Name:</label>
+            <select id="coffeeName" @bind="selectedCoffeeId">
+                @foreach (var coffeeData in CoffeeServices.RetrieveCoffeeData())
+                {
+                    <option value="@coffeeData.Id">@coffeeData.CoffeeName - @coffeeData.CoffeePrice</option>
+                }
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label>Add-ins:</label>
+            @foreach (var addinsData in AddInsServices.RetrieveAddInsData())
             {
-                <option value="@coffeeData.Id">@coffeeData.CoffeeName - @coffeeData.CoffeePrice</option>
+                <div>
+                    <input type="checkbox" @onchange="(e) => AddInsCheckboxChanged(e, addinsData)" />
+                    <label for="@addinsData.Id">@addinsData.Name - @addinsData.Price</label>
+                </div>
             }
-        </select>
-    </div>
-    <br />
-    <div>
-        <label>Add-ins:</label>
-        @foreach (var addinsData in AddInsServices.RetrieveAddInsData())
-        {
-            <div>
-                <input type="checkbox" @onchange="(e) => AddInsCheckboxChanged(e, addinsData)" />
-                <label for="@addinsData.Id">@addinsData.Name - @addinsData.Price</label>
-            </div>
-        }
-    </div>
-    <br />
-    <div>
-        <label>Total Price:</label>
-        <span>@CalculateTotalPrice().ToString("C")</span>
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Save Order</button>
-</EditForm>
+        </div>
+        <br />
+        <div class="form-group">
+            <label>Total Price:</label>
+            <span>@CalculateTotalPrice().ToString("C")</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Order</button>
+    </EditForm>
+</div>
 
 @code {
     private Guid selectedCoffeeId;

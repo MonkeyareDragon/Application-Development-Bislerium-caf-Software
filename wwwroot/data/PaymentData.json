@@ -1,282 +1,32 @@
 [
   {
-    "PaymentId": "1018e288-02d6-47d6-9958-68419c75c1e3",
+    "PaymentId": "e3749596-9ca1-4bfa-a571-c957ad5774a2",
     "Order": [
       {
-        "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
+        "OrderId": "fb17f319-fdac-44c8-b3fb-6053a316a121",
         "Coffee": [
           {
-            "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
+            "Id": "06f37380-40e5-4a66-8cde-851860dc0bc7",
             "CoffeeName": "Cappuccino",
             "CoffeePrice": 350.0
           }
         ],
         "AddIns": [
-          {
-            "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-            "Name": "Nutmeg",
-            "Price": 100.0
-          },
-          {
-            "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
-            "Name": "Maple syrup",
-            "Price": 150.0
-          }
-        ],
-        "TotalPrice": 600.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
-      }
-    ],
-    "CustomerName": "Newton",
-    "Email": "newtongay123@gamil.com",
-    "PaymentDatetime": "2024-01-09T00:18:21.0426999+05:45",
-    "PurchasesCount": 1,
-    "PaidPrice": 540.0
-  },
-  {
-    "PaymentId": "a0ce6aa6-f332-4a76-adb9-43f741548ace",
-    "Order": [
-      {
-        "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
-        "Coffee": [
-          {
-            "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
-            "CoffeeName": "Cappuccino",
-            "CoffeePrice": 350.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-            "Name": "Nutmeg",
-            "Price": 100.0
-          },
-          {
-            "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
-            "Name": "Maple syrup",
-            "Price": 150.0
-          }
-        ],
-        "TotalPrice": 600.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-09T00:32:10.8054366+05:45",
-    "PurchasesCount": 1,
-    "PaidPrice": 540.0
-  },
-  {
-    "PaymentId": "57ba3a75-fd43-4088-9208-b810487064d3",
-    "Order": [
-      {
-        "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
-        "Coffee": [
-          {
-            "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
-            "CoffeeName": "Cappuccino",
-            "CoffeePrice": 350.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-            "Name": "Nutmeg",
-            "Price": 100.0
-          },
-          {
-            "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
-            "Name": "Maple syrup",
-            "Price": 150.0
-          }
-        ],
-        "TotalPrice": 600.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-09T08:25:24.0844311+05:45",
-    "PurchasesCount": 2,
-    "PaidPrice": 0.0
-  },
-  {
-    "PaymentId": "4d9fee29-c0c3-4949-88e7-26d7c4ce20c9",
-    "Order": [
-      {
-        "OrderId": "a1577db0-6369-4a0e-a84b-6f2269712085",
-        "Coffee": [
-          {
-            "Id": "d55ad476-b7e0-45e7-a164-d9255fd27277",
-            "CoffeeName": "Cappuccino",
-            "CoffeePrice": 350.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "aa2c4d2e-1596-4bb2-9c74-7928c66a211b",
-            "Name": "Nutmeg",
-            "Price": 100.0
-          },
-          {
-            "Id": "38a48c4e-f737-4136-9a48-14916433ef16",
-            "Name": "Maple syrup",
-            "Price": 150.0
-          }
-        ],
-        "TotalPrice": 600.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-08T23:42:57.5234454+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-09T08:25:43.3031527+05:45",
-    "PurchasesCount": 3,
-    "PaidPrice": 0.0
-  },
-  {
-    "PaymentId": "30b028e4-02d8-4784-9dd0-a376b97c686f",
-    "Order": [
-      {
-        "OrderId": "80c76819-6f57-438d-8374-55321548187f",
-        "Coffee": [
-          {
-            "Id": "90553baf-7fa6-40ad-abf7-70258c0507c1",
-            "CoffeeName": "Espresso",
-            "CoffeePrice": 350.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
-            "Name": "Cayenne pepper",
-            "Price": 25.0
-          },
-          {
-            "Id": "0e03d4cb-1b3b-4609-a8b5-5b5da06b159e",
-            "Name": "Cardamom",
-            "Price": 15.0
-          },
-          {
-            "Id": "761d8737-98df-41b0-b09a-34995880c1db",
-            "Name": "Cinnamon",
-            "Price": 12.5
-          }
-        ],
-        "TotalPrice": 402.5,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-09T08:24:53.5415795+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-09T08:30:36.9197287+05:45",
-    "PurchasesCount": 4,
-    "PaidPrice": 0.0
-  },
-  {
-    "PaymentId": "1aa6e016-9a7a-4a58-99b9-13f8b1d2e3fc",
-    "Order": [
-      {
-        "OrderId": "91f4291c-f226-458c-9067-a96326ff7d85",
-        "Coffee": [
-          {
-            "Id": "df8a37a6-462a-4daf-819a-43a1f8d1fb80",
-            "CoffeeName": "Black Coffee",
-            "CoffeePrice": 250.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "ecf8e07e-3698-4c7d-afa1-221d64d73104",
-            "Name": "Cream",
-            "Price": 45.0
-          }
-        ],
-        "TotalPrice": 295.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-10T01:07:22.3047486+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-10T01:07:34.2049894+05:45",
-    "PurchasesCount": 5,
-    "PaidPrice": 0.0
-  },
-  {
-    "PaymentId": "246ec982-a77f-4763-a807-fdbd94389cf1",
-    "Order": [
-      {
-        "OrderId": "91f4291c-f226-458c-9067-a96326ff7d85",
-        "Coffee": [
-          {
-            "Id": "df8a37a6-462a-4daf-819a-43a1f8d1fb80",
-            "CoffeeName": "Black Coffee",
-            "CoffeePrice": 250.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "ecf8e07e-3698-4c7d-afa1-221d64d73104",
-            "Name": "Cream",
-            "Price": 45.0
-          }
-        ],
-        "TotalPrice": 295.0,
-        "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-10T01:07:22.3047486+05:45"
-      }
-    ],
-    "CustomerName": "Kabin",
-    "Email": "18limboo@gmail.com",
-    "PaymentDatetime": "2024-01-10T01:08:57.6085731+05:45",
-    "PurchasesCount": 6,
-    "PaidPrice": 295.0
-  },
-  {
-    "PaymentId": "865cebe6-eb58-4dfb-b55f-91e7cb123a6f",
-    "Order": [
-      {
-        "OrderId": "1c82c628-2a4c-4e98-8b81-42845f6d9ec6",
-        "Coffee": [
-          {
-            "Id": "df8a37a6-462a-4daf-819a-43a1f8d1fb80",
-            "CoffeeName": "Black Coffee",
-            "CoffeePrice": 250.0
-          }
-        ],
-        "AddIns": [
-          {
-            "Id": "807e8acc-6ce4-4e6c-b323-3587947e0569",
-            "Name": "Cayenne pepper",
-            "Price": 25.0
-          },
           {
             "Id": "757ebf75-ecc9-45f8-a3cc-7956d7e77b56",
             "Name": "Marshmallows",
             "Price": 30.0
-          },
-          {
-            "Id": "6a693bad-e279-47cd-b743-e5e476599448",
-            "Name": "Vanilla extract",
-            "Price": 150.0
           }
         ],
-        "TotalPrice": 455.0,
+        "TotalPrice": 380.0,
         "PaymentStatus": "Paid",
-        "OrderDatetime": "2024-01-10T08:01:03.7981436+05:45"
+        "OrderDatetime": "2024-01-10T11:52:15.5852147+05:45"
       }
     ],
     "CustomerName": "Newton",
     "Email": "newtongay123@gamil.com",
-    "PaymentDatetime": "2024-01-10T08:01:13.3547708+05:45",
-    "PurchasesCount": 7,
-    "PaidPrice": 455.0
+    "PaymentDatetime": "2024-01-10T11:52:22.0663952+05:45",
+    "PurchasesCount": 0,
+    "PaidPrice": 380.0
   }
 ]
