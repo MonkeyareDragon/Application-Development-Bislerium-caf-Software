@@ -97,7 +97,7 @@ public class AddInsServices
         // If the addins is not found, throw an exception.
         if (editAddIns == null)
         {
-            throw new Exception("Hobby not found");
+            throw new Exception("Add-Ins not found");
         }
         // Update the name of the addins.
         editAddIns.Name = newName;
