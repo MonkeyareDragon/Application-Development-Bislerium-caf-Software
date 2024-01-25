@@ -18,12 +18,16 @@
         <label for="Price">Price:</label>
         <!-- InputNumber component with two-way data binding to the AddIn's Price property -->
         <InputNumber id="Price" class="form-control" @bind-Value="addins.Price" />
+        <label for="Price">Password:</label>
+        <!-- InputPassword component to check extra layer of protection-->
+        <InputText id="Password" type="password" class="form-control" @bind-Value="adminPassword" required/>
     </div>
     <!-- Submit button for saving changes -->
     <button type="submit" class="btn btn-primary">Save</button>
 </EditForm>
 
 @code {
+    string adminPassword = "";
     [Parameter] // Parameter to capture the AddIns Id from the route above /EditAddIns/{Id:guid}
     public Guid Id { get; set; }
 
@@ -42,12 +46,21 @@
     {
         try
         {
-            // Call AddInsServices to edit the addins with the specified Id, updated Name and update Price by calling method EditAddIns from AddInsServices class in Services Folder
-            AddInsServices.EditAddIns(Id, addins.Name, addins.Price);
+            //If condition to check whether the given password is valid admin password
+            if (adminPassword == "admin123")
+            {
+                // Call AddInsServices to edit the addins with the specified Id, updated Name and update Price by calling method EditAddIns from AddInsServices class in Services Folder
+                AddInsServices.EditAddIns(Id, addins.Name, addins.Price);
 
-            // Display a success alert and navigate back to the AddIns page
-            App.Current.MainPage.DisplayAlert("Success", "Data SuccessFully Edited", "Ok");
-            NavManager.NavigateTo("/AddIns");
+                // Display a success alert and navigate back to the AddIns page
+                App.Current.MainPage.DisplayAlert("Success", "Data SuccessFully Edited", "Ok");
+                NavManager.NavigateTo("/AddIns");
+            }
+            else
+            {
+                // Display a error alert for unmatch password
+                App.Current.MainPage.DisplayAlert("Error", "Admin password doesn't match", "Retry");
+            }
         }
         catch (Exception ex)
         {
